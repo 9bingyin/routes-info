@@ -15,15 +15,22 @@ jobs:
       uses: actions/checkout@v2
 
     - name: Download file from url
-      run: curl -o chnroutes.txt https://raw.githubusercontent.com/misakaio/chnroutes2/master/chnroutes.txt
+      run: |
+        curl -o chnroutes.txt https://raw.githubusercontent.com/misakaio/chnroutes2/master/chnroutes.txt
+        curl -o cfip4.txt https://www.cloudflare.com/ips-v4
+        curl -o cfip6.txt https://www.cloudflare.com/ips-v6
 
     - name: Modify the file using sed command
-      run: sed -e '/^#/b' -e 's/^/IP-CIDR,/' -e 's/$/,no-resolve/' chnroutes.txt > cnip.list
+      run: |
+        sed -e '/^#/b' -e 's/^/IP-CIDR,/' -e 's/$/,no-resolve/' chnroutes.txt > chinacidr.list
+        sed -e '/^#/b' -e 's/^/IP-CIDR,/' -e 's/$/,no-resolve/' cfip4.txt > cloudflare.list
+        sed -e '/^#/b' -e 's/^/IP-CIDR,/' -e 's/$/,no-resolve/' cfip6.txt > cloudflare.list
 
     - name: Store the modified file
       run: |
         mkdir -p list
-        mv -f cnip.list list/
+        mv -f cnip.list lists/
+        rm -rf chnroutes.txt cfip4.txt cfip6.txt
       shell: bash
     - name: Commit the changes
       run: |
