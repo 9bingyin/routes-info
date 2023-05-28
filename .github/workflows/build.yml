@@ -23,7 +23,7 @@ jobs:
     - name: Modify the file using sed command
       run: |
         sed -e '/^#/b' -e 's/^/IP-CIDR,/' -e 's/$/,no-resolve/' chnroutes.txt > chinacidr.list
-        sed -e '/^#/b' -e 's/^/IP-CIDR,/' -e 's/$/,no-resolve/' cfip4.txt > cloudflare.list
+        sed -e '/^#/b' -e 's/^/IP-CIDR,/' -e 's/$/,no-resolve\n/' cfip4.txt > cloudflare.list
         sed -e '/^#/b' -e 's/^/IP-CIDR,/' -e 's/$/,no-resolve/' cfip6.txt >> cloudflare.list
 
     - name: Store the modified file
