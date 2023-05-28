@@ -29,7 +29,8 @@ jobs:
     - name: Store the modified file
       run: |
         mkdir -p list
-        mv -f cnip.list lists/
+        mv -f chinacidr.list lists/
+        mv -f cloudflare.list lists/
         rm -rf chnroutes.txt cfip4.txt cfip6.txt
       shell: bash
     - name: Commit the changes
