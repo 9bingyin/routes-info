@@ -24,7 +24,7 @@ jobs:
       run: |
         sed -e '/^#/b' -e 's/^/IP-CIDR,/' -e 's/$/,no-resolve/' chnroutes.txt > chinacidr.list
         sed -e '/^#/b' -e 's/^/IP-CIDR,/' -e 's/$/,no-resolve/' cfip4.txt > cloudflare.list
-        echo >> 'n/' >> cloudflare.list
+        echo -e '\n' >> cloudflare.list
         sed -e '/^#/b' -e 's/^/IP-CIDR,/' -e 's/$/,no-resolve/' cfip6.txt >> cloudflare.list
 
     - name: Store the modified file
