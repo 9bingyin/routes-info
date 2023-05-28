@@ -38,8 +38,11 @@ jobs:
     - name: Check for changes in files
       id: check_changes
       run: |
-        git status -s | grep '^[MADRC]' || echo "::set-output name=has_changes::false"
-        echo "::set-output name=has_changes::true"
+        if [[ $(git status -s | grep '^[MADRC]') ]]; then
+          echo "::set-output name=has_changes::true"
+        else
+          echo "::set-output name=has_changes::false"
+        fi
       shell: bash
 
     - name: Commit the changes
