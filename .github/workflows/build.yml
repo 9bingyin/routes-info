@@ -1,6 +1,8 @@
 name: Download and modify file from url
 
 on:
+  schedule:
+    - cron: "0 */3 * * *"
   push:
     branches:
       - main
