@@ -35,23 +35,7 @@ jobs:
         rm -rf chnroutes.txt cfip4.txt cfip6.txt
       shell: bash
 
-    - name: Check file changes
-      id: check_changes
-      uses: actions/github-script@v2
-      with:
-        script: |
-          const compareCommits = await github.repos.compareCommits({
-            owner: context.repo.owner,
-            repo: context.repo.repo,
-            base: '${{ github.event.before }}',
-            head: '${{ github.sha }}'
-          });
-          const hasChanges = compareCommits.data.files.find(f => f.filename.startsWith('lists/'));
-          console.log(hasChanges);
-          core.setOutput('hasChanges', hasChanges != null);
-
     - name: Commit the changes
-      if: steps.check_changes.outputs.hasChanges == 'true'
       run: |
         git config --global user.name ${{ secrets.USERNAME }}
         git config --global user.email ${{ secrets.EMAIL }}
