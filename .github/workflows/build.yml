@@ -23,10 +23,10 @@ jobs:
 
     - name: Modify the file using sed command
       run: |
-        echo "# " | sed "s/$/ $(date)/" > chinacidr.list
+        echo "#" | sed "s/$/ $(date)/" > chinacidr.list
         sed -e '/^#/b' -e 's/^/IP-CIDR,/' -e 's/$/,no-resolve/' chnroutes.txt >> chinacidr.list
         
-        echo "# " | sed "s/$/ $(date)/" > cloudflare.list
+        echo "#" | sed "s/$/ $(date)/" > cloudflare.list
         sed -e '/^#/b' -e 's/^/IP-CIDR,/' -e 's/$/,no-resolve/' cfip4.txt >> cloudflare.list
         echo >> cloudflare.list
         sed -e '/^#/b' -e 's/^/IP-CIDR,/' -e 's/$/,no-resolve/' cfip6.txt >> cloudflare.list
