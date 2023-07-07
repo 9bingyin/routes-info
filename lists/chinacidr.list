@@ -1,6 +1,6 @@
-# Fri Jul  7 15:17:35 UTC 2023
-# 14969950 routes were dumped from us-iad01-rs01cn-b at Fri Jul  7 15:00:02 UTC 2023.
-# Found 43225 routes matching, aggregated to 3418.
+# Fri Jul  7 18:21:18 UTC 2023
+# 14970323 routes were dumped from us-iad01-rs01cn-b at Fri Jul  7 18:00:03 UTC 2023.
+# Found 43226 routes matching, aggregated to 3420.
 IP-CIDR,1.1.8.0/24,no-resolve
 IP-CIDR,1.2.4.0/24,no-resolve
 IP-CIDR,1.8.1.0/24,no-resolve
@@ -2259,6 +2259,8 @@ IP-CIDR,146.222.79.0/24,no-resolve
 IP-CIDR,146.222.81.0/24,no-resolve
 IP-CIDR,146.222.94.0/24,no-resolve
 IP-CIDR,148.70.0.0/16,no-resolve
+IP-CIDR,149.134.148.0/24,no-resolve
+IP-CIDR,149.134.152.0/24,no-resolve
 IP-CIDR,150.129.136.0/22,no-resolve
 IP-CIDR,150.129.192.0/22,no-resolve
 IP-CIDR,150.129.252.0/22,no-resolve
