@@ -1,2 +1,8 @@
 # Steam
+DOMAIN-SUFFIX,cm.steampowered.com
 DOMAIN-SUFFIX,steamserver.net
+
+# Bingyin
+DOMAIN-SUFFIX,9bingyin.com
+DOMAIN-SUFFIX,bingyin.org
+DOMAIN-SUFFIX,sakurakouji.net
