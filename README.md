@@ -1,4 +1,4 @@
-## 自用 Clash 规则
+## 自用规则
 
 chinacidr.list: https://github.com/misakaio/chnroutes2
 
