@@ -1,4 +1,3 @@
 name: 添加图标
-proxy-groups:
   - name: 代理规则
     icon: https://raw.githubusercontent.com/Koolson/Qure/master/IconSet/Color/Proxy.png
