@@ -26,14 +26,17 @@ jobs:
 
     - name: Modify the file using sed command
       run: |
+        # ChinaCIDR
         echo "#" | sed "s/$/ $(date)/" > chinacidr.list
         sed -e '/^#/b' -e 's/^/IP-CIDR,/' -e 's/$/,no-resolve/' chnroutes.txt >> chinacidr.list
-        
+
+        # CloudflareCIDR
         echo "#" | sed "s/$/ $(date)/" > cloudflare.list
         sed -e '/^#/b' -e 's/^/IP-CIDR,/' -e 's/$/,no-resolve/' cfip4.txt >> cloudflare.list
         echo >> cloudflare.list
         sed -e '/^#/b' -e 's/^/IP-CIDR,/' -e 's/$/,no-resolve/' cfip6.txt >> cloudflare.list
 
+        # LAN
         echo "#" | sed "s/$/ $(date)/" > lan.list
         sed -E '/(IP-CIDR|IP-CIDR6),/ s/$/,no-resolve/' lan-ip.txt >> lan.list
         echo >> lan.list
