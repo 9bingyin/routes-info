@@ -49,7 +49,7 @@ jobs:
         echo "#" | sed "s/$/ $(date)/" > gfw.list
         bash gfwlist2dnsmasq.sh -o gfwlist.txt
         sed -i 's/server=\//DOMAIN-SUFFIX,/g; s/\/127\.0\.0\.1#5353//g' gfwlist.txt
-        mv gfwlist.txt gfw.list
+        cat gfwlist.txt >> gfw.list
         
     - name: Store the modified file
       run: |
@@ -58,7 +58,7 @@ jobs:
         mv -f cloudflare.list lists/
         mv -f lan.list lists/
         mv -f gfw.list lists/
-        rm -rf chnroutes.txt cfip4.txt cfip6.txt lan-ip.txt lan-non_ip.txt gfwlist2dnsmasq.sh
+        rm -rf chnroutes.txt cfip4.txt cfip6.txt lan-ip.txt lan-non_ip.txt gfwlist2dnsmasq.sh gfwlist.txt
       shell: bash
 
     - name: Commit the changes
