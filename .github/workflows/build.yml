@@ -24,6 +24,9 @@ jobs:
         curl -o lan-ip.txt https://raw.githubusercontent.com/SukkaW/Surge/master/Source/ip/lan.conf
         curl -o lan-non_ip.txt https://raw.githubusercontent.com/SukkaW/Surge/master/Source/non_ip/lan.conf
 
+        wget https://raw.githubusercontent.com/cokebar/gfwlist2dnsmasq/master/gfwlist2dnsmasq.sh
+        wget https://raw.githubusercontent.com/gfwlist/gfwlist/master/gfwlist.txt
+
     - name: Modify the file using sed command
       run: |
         # ChinaCIDR
@@ -41,6 +44,12 @@ jobs:
         sed -E '/(IP-CIDR|IP-CIDR6),/ s/$/,no-resolve/' lan-ip.txt >> lan.list
         echo >> lan.list
         cat lan-non_ip.txt >> lan.list
+
+        # GFWlist
+        echo "#" | sed "s/$/ $(date)/" > gfw.list
+        bash gfwlist2dnsmasq.sh -o gfwlist.txt
+        sed -i 's/server=\//DOMAIN-SUFFIX,/g; s/\/127\.0\.0\.1#5353//g' gfwlist.txt
+        mv gfwlist.txt gfw.list
         
     - name: Store the modified file
       run: |
@@ -48,7 +57,8 @@ jobs:
         mv -f chinacidr.list lists/
         mv -f cloudflare.list lists/
         mv -f lan.list lists/
-        rm -rf chnroutes.txt cfip4.txt cfip6.txt lan-ip.txt lan-non_ip.txt
+        mv -f gfw.list lists/
+        rm -rf chnroutes.txt cfip4.txt cfip6.txt lan-ip.txt lan-non_ip.txt gfwlist2dnsmasq.sh
       shell: bash
 
     - name: Commit the changes
