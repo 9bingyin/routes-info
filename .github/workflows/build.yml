@@ -62,6 +62,7 @@ jobs:
         mv -f cloudflare.list lists/
         mv -f lan.list lists/
         mv -f gfw.list lists/
+        mv -f chinadomain.list lists/
         rm -rf chnroutes.txt cfip4.txt cfip6.txt lan-ip.txt lan-non_ip.txt gfwlist2dnsmasq.sh gfwlist.txt
       shell: bash
 
