@@ -50,6 +50,10 @@ jobs:
         bash gfwlist2dnsmasq.sh -o gfwlist.txt
         sed -i 's/server=\//DOMAIN-SUFFIX,/g; s/\/127\.0\.0\.1#5353//g' gfwlist.txt
         cat gfwlist.txt >> gfw.list
+
+        # ChinaDomain
+        echo "#" | sed "s/$/ $(date)/" > chinadomain.list
+        curl -s https://raw.githubusercontent.com/ACL4SSR/ACL4SSR/master/Clash/ChinaDomain.list | sed '/# MyList/,/#/ {/# MyList/d; /#/!d}; /# CN域名直连/,/#/ {/# CN域名直连/d; /#/!d}; /# China DNS/,/#/ {/# China DNS/d; /#/!d}' >> chinadomain.list
         
     - name: Store the modified file
       run: |
