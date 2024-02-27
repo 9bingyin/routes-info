@@ -2,7 +2,7 @@ name: Download and modify file from url
 
 on:
   schedule:
-    - cron: "0 */3 * * *"
+    - cron: "0 */6 * * *"
   push:
     branches:
       - main
@@ -71,7 +71,7 @@ jobs:
         git config --global user.name 'github-actions[bot]'
         git config --global user.email 'github-actions[bot]@users.noreply.github.com'
         git add .
-        git commit -m "Auto Update IPLists"
+        git commit -m "Auto Update"
         git push
       env:
         ACTIONS_DEPLOY_KEY: ${{ secrets.DEPLOY_KEY }}
