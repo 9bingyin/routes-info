@@ -39,7 +39,7 @@
         "domain": [
           "ghproxy.com",
           "cdn.jsdelivr.net",
-          "testingcf.jsdelivr.net"
+          "gcore.jsdelivr.net"
         ],
         "server": "localDns"
       },
@@ -112,9 +112,25 @@
       "tag":"Bahamut",
       "type":"selector",
       "outbounds":[
-        "Taiwan"
+        "proxy",
+        "direct",
+        "{all}"
       ],
-      "default": "TaiWan"
+      "filter":[
+        {"action":"include","keywords":["Taiwan"]}
+      ]
+    },
+    {
+      "tag":"Abema",
+      "type":"selector",
+      "outbounds":[
+        "proxy",
+        "direct",
+        "{all}"
+      ],
+      "filter":[
+        {"action":"include","keywords":["Japan"]}
+      ]
     },
     {
       "tag":"Global",
@@ -193,6 +209,10 @@
         "outbound": "Bahamut"
       },
       {
+        "rule_set": "geosite-abema",
+        "outbound": "Abema"
+      },
+      {
         "rule_set": "geosite-geolocation-!cn",
         "outbound": "Global"
       },
@@ -218,35 +238,42 @@
         "tag": "geoip-cn",
         "type": "remote",
         "format": "binary",
-        "url": "https://testingcf.jsdelivr.net/gh/MetaCubeX/meta-rules-dat@sing/geo/geoip/cn.srs",
+        "url": "https://gcore.jsdelivr.net/gh/MetaCubeX/meta-rules-dat@sing/geo/geoip/cn.srs",
         "download_detour": "direct"
       },
       {
         "tag": "geosite-private",
         "type": "remote",
         "format": "binary",
-        "url": "https://testingcf.jsdelivr.net/gh/MetaCubeX/meta-rules-dat@sing/geo/geosite/private.srs",
+        "url": "https://gcore.jsdelivr.net/gh/MetaCubeX/meta-rules-dat@sing/geo/geosite/private.srs",
         "download_detour": "direct"
       },
       {
         "tag": "geosite-bahamut",
         "type": "remote",
         "format": "binary",
-        "url": "https://testingcf.jsdelivr.net/gh/MetaCubeX/meta-rules-dat@sing/geo/geosite/bahamut.srs",
+        "url": "https://gcore.jsdelivr.net/gh/MetaCubeX/meta-rules-dat@sing/geo/geosite/bahamut.srs",
+        "download_detour": "direct"
+      },
+      {
+        "tag": "geosite-abema",
+        "type": "remote",
+        "format": "binary",
+        "url": "https://gcore.jsdelivr.net/gh/MetaCubeX/meta-rules-dat@sing/geo/geosite/abema.srs",
         "download_detour": "direct"
       },
       {
         "tag": "geosite-cn",
         "type": "remote",
         "format": "binary",
-        "url": "https://testingcf.jsdelivr.net/gh/MetaCubeX/meta-rules-dat@sing/geo/geosite/cn.srs",
+        "url": "https://gcore.jsdelivr.net/gh/MetaCubeX/meta-rules-dat@sing/geo/geosite/cn.srs",
         "download_detour": "direct"
       },
       {
         "tag": "geosite-geolocation-!cn",
         "type": "remote",
         "format": "binary",
-        "url": "https://testingcf.jsdelivr.net/gh/MetaCubeX/meta-rules-dat@sing/geo/geosite/geolocation-!cn.srs",
+        "url": "https://gcore.jsdelivr.net/gh/MetaCubeX/meta-rules-dat@sing/geo/geosite/geolocation-!cn.srs",
         "download_detour": "direct"
       }
     ]
