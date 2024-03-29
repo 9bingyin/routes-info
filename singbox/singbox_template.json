@@ -21,7 +21,7 @@
     "servers": [
       {
         "tag": "proxyDns",
-        "address": "tls://8.8.8.8",
+        "address": "https://1.1.1.1/dns-query",
         "detour": "proxy"
       },
       {
@@ -105,6 +105,19 @@
       ]
     },
     {
+      "tag":"auto",
+      "type":"urltest",
+      "outbounds":[
+        "{all}"
+      ],
+      "filter":[
+        {"action":"exclude","keywords":["网站|地址|剩余|过期|时间|有效"]}
+      ],
+      "url": "http://cp.cloudflare.com/",
+      "interval": "10m",
+      "tolerance": 50
+    },
+    {
       "tag":"Bahamut",
       "type":"selector",
       "outbounds":[
@@ -129,34 +142,22 @@
       ]
     },
     {
+      "tag":"China",
+      "type":"selector",
+      "outbounds":[
+        "direct",
+        "proxy",
+        "auto"
+      ]
+    },
+    {
       "tag":"Global",
       "type":"selector",
       "outbounds":[
         "proxy",
         "direct",
-        "{all}"
+        "auto"
       ]
-    },
-    {
-      "tag":"China",
-      "type":"selector",
-      "outbounds":[
-        "direct",
-        "proxy"
-      ]
-    },
-    {
-      "tag":"auto",
-      "type":"urltest",
-      "outbounds":[
-        "{all}"
-      ],
-      "filter":[
-        {"action":"exclude","keywords":["网站|地址|剩余|过期|时间|有效"]}
-      ],
-      "url": "http://www.gstatic.com/generate_204",
-      "interval": "10m",
-      "tolerance": 50
     },
     {
       "type": "direct",
