@@ -22,7 +22,7 @@
       {
         "tag": "proxyDns",
         "address": "https://1.1.1.1/dns-query",
-        "detour": "proxy"
+        "detour": "代理规则"
       },
       {
         "tag": "localDns",
@@ -96,16 +96,16 @@
   ],
   "outbounds": [
     {
-      "tag":"proxy",
+      "tag":"代理规则",
       "type":"selector",
       "outbounds":[
-        "auto",
+        "自动选择",
         "direct",
         "{all}"
       ]
     },
     {
-      "tag":"auto",
+      "tag":"自动选择",
       "type":"urltest",
       "outbounds":[
         "{all}"
@@ -118,10 +118,10 @@
       "tolerance": 50
     },
     {
-      "tag":"Bahamut",
+      "tag":"巴哈姆特",
       "type":"selector",
       "outbounds":[
-        "proxy",
+        "代理规则",
         "direct",
         "{all}"
       ],
@@ -130,10 +130,10 @@
       ]
     },
     {
-      "tag":"Abema",
+      "tag":"ABEMA",
       "type":"selector",
       "outbounds":[
-        "proxy",
+        "代理规则",
         "direct",
         "{all}"
       ],
@@ -142,21 +142,21 @@
       ]
     },
     {
-      "tag":"China",
+      "tag":"直连规则",
       "type":"selector",
       "outbounds":[
         "direct",
-        "proxy",
-        "auto"
+        "代理规则",
+        "自动选择"
       ]
     },
     {
-      "tag":"Global",
+      "tag":"默认规则",
       "type":"selector",
       "outbounds":[
-        "proxy",
+        "代理规则",
         "direct",
-        "auto"
+        "自动选择"
       ]
     },
     {
@@ -174,7 +174,7 @@
   ],
   "route": {
     "auto_detect_interface": true,
-    "final": "proxy",
+    "final": "代理规则",
     "rules": [
       {
         "protocol": "dns",
@@ -190,7 +190,7 @@
       },
       {
         "clash_mode": "global",
-        "outbound": "proxy"
+        "outbound": "代理规则"
       },
       {
         "domain": [
@@ -203,15 +203,15 @@
       },
       {
         "rule_set": "geosite-bahamut",
-        "outbound": "Bahamut"
+        "outbound": "巴哈姆特"
       },
       {
         "rule_set": "geosite-abema",
-        "outbound": "Abema"
+        "outbound": "ABEMA"
       },
       {
         "rule_set": "geosite-geolocation-!cn",
-        "outbound": "Global"
+        "outbound": "默认规则"
       },
       {
         "rule_set": "geosite-private",
@@ -223,11 +223,11 @@
       },
       {
         "rule_set": "geoip-cn",
-        "outbound": "China"
+        "outbound": "直连规则"
       },
       {
         "rule_set": "geosite-cn",
-        "outbound": "China"
+        "outbound": "直连规则"
       }
     ],
     "rule_set": [
