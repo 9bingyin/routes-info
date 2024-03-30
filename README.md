@@ -9,3 +9,9 @@ lan.list: https://github.com/SukkaW/Surge
 gfw.list: https://github.com/gfwlist/gfwlist
 
 chinadomain.list: https://github.com/ACL4SSR/ACL4SSR/blob/master/Clash/ChinaDomain.list
+
+## 转换
+
+subconverter: https://github.com/tindy2013/subconverter
+
+sing-box-subscribe: https://github.com/Toperlock/sing-box-subscribe
