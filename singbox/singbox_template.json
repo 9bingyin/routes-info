@@ -36,14 +36,6 @@
     ],
     "rules": [
       {
-        "domain": [
-          "ghproxy.com",
-          "cdn.jsdelivr.net",
-          "gcore.jsdelivr.net"
-        ],
-        "server": "localDns"
-      },
-      {
         "outbound": "any",
         "server": "localDns",
         "disable_cache": true
@@ -66,7 +58,7 @@
       }
     ],
     "final": "localDns",
-    "strategy": "ipv4_only"
+    "strategy": "prefer_ipv4"
   },
   "inbounds": [
     {
@@ -74,10 +66,10 @@
       "inet4_address": "172.19.0.1/30",
       "mtu": 9000,
       "auto_route": true,
-      "strict_route": true,
+      "strict_route": false,
       "sniff": true,
       "endpoint_independent_nat": false,
-      "stack": "system",
+      "stack": "mixed",
       "platform": {
         "http_proxy": {
           "enabled": true,
