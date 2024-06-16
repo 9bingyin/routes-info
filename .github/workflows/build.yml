@@ -16,53 +16,61 @@ jobs:
 
     - name: Download file from url
       run: |
-        curl -o chnroutes.txt https://raw.githubusercontent.com/misakaio/chnroutes2/master/chnroutes.txt
+        curl --fail -o chnroutes.txt https://raw.githubusercontent.com/misakaio/chnroutes2/master/chnroutes.txt || rm -f chnroutes.txt
         
-        curl -o cfip4.txt https://www.cloudflare.com/ips-v4
-        curl -o cfip6.txt https://www.cloudflare.com/ips-v6
+        curl --fail -o cfip4.txt https://www.cloudflare.com/ips-v4 || rm -f cfip4.txt
+        curl --fail -o cfip6.txt https://www.cloudflare.com/ips-v6 || rm -f cfip6.txt
 
-        curl -o lan-ip.txt https://raw.githubusercontent.com/SukkaW/Surge/master/Source/ip/lan.conf
-        # curl -o lan-non_ip.txt https://raw.githubusercontent.com/SukkaW/Surge/master/Source/non_ip/lan.conf
+        curl --fail -o lan-ip.txt https://raw.githubusercontent.com/SukkaW/Surge/master/Source/ip/lan.conf || rm -f lan-ip.txt
+        curl --fail -o lan-non_ip.txt https://raw.githubusercontent.com/SukkaW/Surge/master/Source/non_ip/lan.conf || rm -f lan-non_ip.txt
 
-        wget https://raw.githubusercontent.com/cokebar/gfwlist2dnsmasq/master/gfwlist2dnsmasq.sh
-        wget https://raw.githubusercontent.com/gfwlist/gfwlist/master/gfwlist.txt
+        wget --no-verbose https://raw.githubusercontent.com/cokebar/gfwlist2dnsmasq/master/gfwlist2dnsmasq.sh || rm -f gfwlist2dnsmasq.sh
+        wget --no-verbose https://raw.githubusercontent.com/gfwlist/gfwlist/master/gfwlist.txt || rm -f gfwlist.txt
 
     - name: Modify the file using sed command
       run: |
         # ChinaCIDR
-        echo "#" | sed "s/$/ $(date)/" > chinacidr.list
-        sed -e '/^#/b' -e 's/^/IP-CIDR,/' -e 's/$/,no-resolve/' chnroutes.txt >> chinacidr.list
+        if [ -f chnroutes.txt ]; then
+          echo "#" | sed "s/$/ $(date)/" > chinacidr.list
+          sed -e '/^#/b' -e 's/^/IP-CIDR,/' -e 's/$/,no-resolve/' chnroutes.txt >> chinacidr.list
+        fi
 
         # CloudflareCIDR
-        echo "#" | sed "s/$/ $(date)/" > cloudflare.list
-        sed -e '/^#/b' -e 's/^/IP-CIDR,/' -e 's/$/,no-resolve/' cfip4.txt >> cloudflare.list
-        echo >> cloudflare.list
-        sed -e '/^#/b' -e 's/^/IP-CIDR,/' -e 's/$/,no-resolve/' cfip6.txt >> cloudflare.list
+        if [ -f cfip4.txt ] || [ -f cfip6.txt ]; then
+          echo "#" | sed "s/$/ $(date)/" > cloudflare.list
+          [ -f cfip4.txt ] && sed -e '/^#/b' -e 's/^/IP-CIDR,/' -e 's/$/,no-resolve/' cfip4.txt >> cloudflare.list
+          echo >> cloudflare.list
+          [ -f cfip6.txt ] && sed -e '/^#/b' -e 's/^/IP-CIDR,/' -e 's/$/,no-resolve/' cfip6.txt >> cloudflare.list
+        fi
 
         # LAN
-        echo "#" | sed "s/$/ $(date)/" > lan.list
-        sed -E '/(IP-CIDR|IP-CIDR6),/ s/$/,no-resolve/' lan-ip.txt >> lan.list
-        echo >> lan.list
-        # cat lan-non_ip.txt >> lan.list
+        if [ -f lan-ip.txt ] || [ -f lan-non_ip.txt ]; then
+          echo "#" | sed "s/$/ $(date)/" > lan.list
+          [ -f lan-ip.txt ] && sed -E '/(IP-CIDR|IP-CIDR6),/ s/$/,no-resolve/' lan-ip.txt >> lan.list
+          echo >> lan.list
+          [ -f lan-non_ip.txt ] && cat lan-non_ip.txt >> lan.list
+        fi
 
         # GFWlist
-        echo "#" | sed "s/$/ $(date)/" > gfw.list
-        bash gfwlist2dnsmasq.sh -o gfwlist.txt
-        sed -i 's/server=\//DOMAIN-SUFFIX,/g; s/\/127\.0\.0\.1#5353//g' gfwlist.txt
-        cat gfwlist.txt >> gfw.list
+        if [ -f gfwlist2dnsmasq.sh ] && [ -f gfwlist.txt ]; then
+          echo "#" | sed "s/$/ $(date)/" > gfw.list
+          bash gfwlist2dnsmasq.sh -o gfwlist.txt
+          sed -i 's/server=\//DOMAIN-SUFFIX,/g; s/\/127\.0\.0\.1#5353//g' gfwlist.txt
+          cat gfwlist.txt >> gfw.list
+        fi
 
         # ChinaDomain
         echo "#" | sed "s/$/ $(date)/" > chinadomain.list
-        curl -s https://raw.githubusercontent.com/ACL4SSR/ACL4SSR/master/Clash/ChinaDomain.list | sed '/# MyList/,/#/ {/# MyList/d; /#/!d}; /# CN域名直连/,/#/ {/# CN域名直连/d; /#/!d}; /# China DNS/,/#/ {/# China DNS/d; /#/!d}' >> chinadomain.list
+        curl --fail -s https://raw.githubusercontent.com/ACL4SSR/ACL4SSR/master/Clash/ChinaDomain.list | sed '/# MyList/,/#/ {/# MyList/d; /#/!d}; /# CN域名直连/,/#/ {/# CN域名直连/d; /#/!d}; /# China DNS/,/#/ {/# China DNS/d; /#/!d}' >> chinadomain.list || rm -f chinadomain.list
         
     - name: Store the modified file
       run: |
         mkdir -p lists
-        mv -f chinacidr.list lists/
-        mv -f cloudflare.list lists/
-        mv -f lan.list lists/
-        mv -f gfw.list lists/
-        mv -f chinadomain.list lists/
+        mv -f chinacidr.list lists/ || true
+        mv -f cloudflare.list lists/ || true
+        mv -f lan.list lists/ || true
+        mv -f gfw.list lists/ || true
+        mv -f chinadomain.list lists/ || true
         rm -rf chnroutes.txt cfip4.txt cfip6.txt lan-ip.txt lan-non_ip.txt gfwlist2dnsmasq.sh gfwlist.txt
       shell: bash
 
