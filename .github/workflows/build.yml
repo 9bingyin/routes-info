@@ -27,6 +27,8 @@ jobs:
         wget --no-verbose https://raw.githubusercontent.com/cokebar/gfwlist2dnsmasq/master/gfwlist2dnsmasq.sh || rm -f gfwlist2dnsmasq.sh
         wget --no-verbose https://raw.githubusercontent.com/gfwlist/gfwlist/master/gfwlist.txt || rm -f gfwlist.txt
 
+        curl --fail -o apple.china.conf https://raw.githubusercontent.com/felixonmars/dnsmasq-china-list/master/apple.china.conf || rm -f apple.china.conf
+
     - name: Modify the file using sed command
       run: |
         # ChinaCIDR
@@ -63,6 +65,12 @@ jobs:
         echo "#" | sed "s/$/ $(date)/" > chinadomain.list
         curl --fail -s https://raw.githubusercontent.com/ACL4SSR/ACL4SSR/master/Clash/ChinaDomain.list | sed '/# MyList/,/#/ {/# MyList/d; /#/!d}; /# CN域名直连/,/#/ {/# CN域名直连/d; /#/!d}; /# China DNS/,/#/ {/# China DNS/d; /#/!d}' >> chinadomain.list || rm -f chinadomain.list
         
+        # AppleDomain
+        if [ -f apple.china.conf ]; then
+          echo "#" | sed "s/$/ $(date)/" > apple-cn.txt
+          sed -n 's/^server=\/\(.*\)\/114\.114\.114\.114$/\1/p' apple.china.conf >> apple-cn.txt
+        fi
+
     - name: Store the modified file
       run: |
         mkdir -p lists
@@ -71,7 +79,8 @@ jobs:
         mv -f lan.list lists/ || true
         mv -f gfw.list lists/ || true
         mv -f chinadomain.list lists/ || true
-        rm -rf chnroutes.txt cfip4.txt cfip6.txt lan-ip.txt lan-non_ip.txt gfwlist2dnsmasq.sh gfwlist.txt
+        mv -f apple-cn.txt lists/ || true
+        rm -rf chnroutes.txt cfip4.txt cfip6.txt lan-ip.txt lan-non_ip.txt gfwlist2dnsmasq.sh gfwlist.txt apple.china.conf
       shell: bash
 
     - name: Commit the changes
