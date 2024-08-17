@@ -73,11 +73,46 @@ jobs:
 
         # Abema
         echo "#" | sed "s/$/ $(date)/" > abema.list
-        curl -s "https://raw.githubusercontent.com/v2fly/domain-list-community/master/data/abema" | awk '/^(DOMAIN-SUFFIX,|DOMAIN,)/ {print " - " $0}' >> abema.list
+        curl --fail -s "https://raw.githubusercontent.com/v2fly/domain-list-community/master/data/abema" | \
+        while IFS= read -r line || [[ -n "$line" ]]; do
+            [[ "$line" =~ ^# || -z "$line" ]] && continue
+            [[ "$line" =~ ^include: ]] && continue
+            line=${line%% @*}
+            line=$(echo "$line" | sed 's/[[:space:]]*#.*//')
+            if [[ "$line" =~ ^domain:(.*)$ ]]; then
+                echo " - DOMAIN-SUFFIX,${BASH_REMATCH[1]}" >> abema.list
+            elif [[ "$line" =~ ^full:(.*)$ ]]; then
+                echo " - DOMAIN,${BASH_REMATCH[1]}" >> abema.list
+            elif [[ "$line" =~ ^regexp:(.*)$ ]]; then
+                echo " - DOMAIN-REGEX,${BASH_REMATCH[1]}" >> abema.list
+            elif [[ "$line" =~ ^keyword:(.*)$ ]]; then
+                echo " - DOMAIN-KEYWORD,${BASH_REMATCH[1]}" >> abema.list
+            else
+                echo " - DOMAIN-SUFFIX,$line" >> abema.list
+            fi
+        done
 
         # Bahamut
         echo "#" | sed "s/$/ $(date)/" > bahamut.list
-        curl -s "https://raw.githubusercontent.com/v2fly/domain-list-community/master/data/bahamut" | awk '/^(DOMAIN-SUFFIX,|DOMAIN,)/ {print " - " $0}' >> bahamut.list
+        curl --fail -s "https://raw.githubusercontent.com/v2fly/domain-list-community/master/data/bahamut" | \
+        while IFS= read -r line || [[ -n "$line" ]]; do
+            [[ "$line" =~ ^# || -z "$line" ]] && continue
+            [[ "$line" =~ ^include: ]] && continue
+            line=${line%% @*}
+            line=$(echo "$line" | sed 's/[[:space:]]*#.*//')
+            if [[ "$line" =~ ^domain:(.*)$ ]]; then
+                echo " - DOMAIN-SUFFIX,${BASH_REMATCH[1]}" >> bahamut.list
+            elif [[ "$line" =~ ^full:(.*)$ ]]; then
+                echo " - DOMAIN,${BASH_REMATCH[1]}" >> bahamut.list
+            elif [[ "$line" =~ ^regexp:(.*)$ ]]; then
+                echo " - DOMAIN-REGEX,${BASH_REMATCH[1]}" >> bahamut.list
+            elif [[ "$line" =~ ^keyword:(.*)$ ]]; then
+                echo " - DOMAIN-KEYWORD,${BASH_REMATCH[1]}" >> bahamut.list
+            else
+                echo " - DOMAIN-SUFFIX,$line" >> bahamut.list
+            fi
+        done
+
 
     - name: Store the modified file
       run: |
