@@ -80,15 +80,15 @@ jobs:
             line=${line%% @*}
             line=$(echo "$line" | sed 's/[[:space:]]*#.*//')
             if [[ "$line" =~ ^domain:(.*)$ ]]; then
-                echo " - DOMAIN-SUFFIX,${BASH_REMATCH[1]}" >> abema.list
+                echo "DOMAIN-SUFFIX,${BASH_REMATCH[1]}" >> abema.list
             elif [[ "$line" =~ ^full:(.*)$ ]]; then
-                echo " - DOMAIN,${BASH_REMATCH[1]}" >> abema.list
+                echo "DOMAIN,${BASH_REMATCH[1]}" >> abema.list
             elif [[ "$line" =~ ^regexp:(.*)$ ]]; then
-                echo " - DOMAIN-REGEX,${BASH_REMATCH[1]}" >> abema.list
+                echo "DOMAIN-REGEX,${BASH_REMATCH[1]}" >> abema.list
             elif [[ "$line" =~ ^keyword:(.*)$ ]]; then
-                echo " - DOMAIN-KEYWORD,${BASH_REMATCH[1]}" >> abema.list
+                echo "DOMAIN-KEYWORD,${BASH_REMATCH[1]}" >> abema.list
             else
-                echo " - DOMAIN-SUFFIX,$line" >> abema.list
+                echo "DOMAIN-SUFFIX,$line" >> abema.list
             fi
         done
 
@@ -101,15 +101,15 @@ jobs:
             line=${line%% @*}
             line=$(echo "$line" | sed 's/[[:space:]]*#.*//')
             if [[ "$line" =~ ^domain:(.*)$ ]]; then
-                echo " - DOMAIN-SUFFIX,${BASH_REMATCH[1]}" >> bahamut.list
+                echo "DOMAIN-SUFFIX,${BASH_REMATCH[1]}" >> bahamut.list
             elif [[ "$line" =~ ^full:(.*)$ ]]; then
-                echo " - DOMAIN,${BASH_REMATCH[1]}" >> bahamut.list
+                echo "DOMAIN,${BASH_REMATCH[1]}" >> bahamut.list
             elif [[ "$line" =~ ^regexp:(.*)$ ]]; then
-                echo " - DOMAIN-REGEX,${BASH_REMATCH[1]}" >> bahamut.list
+                echo "DOMAIN-REGEX,${BASH_REMATCH[1]}" >> bahamut.list
             elif [[ "$line" =~ ^keyword:(.*)$ ]]; then
-                echo " - DOMAIN-KEYWORD,${BASH_REMATCH[1]}" >> bahamut.list
+                echo "DOMAIN-KEYWORD,${BASH_REMATCH[1]}" >> bahamut.list
             else
-                echo " - DOMAIN-SUFFIX,$line" >> bahamut.list
+                echo "DOMAIN-SUFFIX,$line" >> bahamut.list
             fi
         done
 
