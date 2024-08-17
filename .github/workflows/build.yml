@@ -71,6 +71,12 @@ jobs:
           sed -n 's/^server=\/\(.*\)\/114\.114\.114\.114$/\1/p' apple.china.conf >> apple-cn.txt
         fi
 
+        # Abeam
+        curl -s "https://raw.githubusercontent.com/v2fly/domain-list-community/master/data/abema" | awk '/^(DOMAIN-SUFFIX,|DOMAIN,)/ {print " - " $0}' > abema.list
+
+        # Bahamut
+        curl -s "https://raw.githubusercontent.com/v2fly/domain-list-community/master/data/bahamut" | awk '/^(DOMAIN-SUFFIX,|DOMAIN,)/ {print " - " $0}' > bahamut.list
+
     - name: Store the modified file
       run: |
         mkdir -p lists
@@ -80,6 +86,8 @@ jobs:
         mv -f gfw.list lists/ || true
         mv -f chinadomain.list lists/ || true
         mv -f apple-cn.txt lists/ || true
+        mv -f abema.list lists/ || true
+        mv -f bahamut.list lists/ || true
         rm -rf chnroutes.txt cfip4.txt cfip6.txt lan-ip.txt lan-non_ip.txt gfwlist2dnsmasq.sh gfwlist.txt apple.china.conf
       shell: bash
 
