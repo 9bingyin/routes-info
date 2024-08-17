@@ -118,7 +118,7 @@
         "{all}"
       ],
       "filter":[
-        {"action":"include","keywords":["Taiwan"]}
+        {"action":"include","keywords":["Hong Kong|Taiwan"]}
       ]
     },
     {
