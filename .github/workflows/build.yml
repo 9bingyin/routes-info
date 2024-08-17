@@ -71,11 +71,13 @@ jobs:
           sed -n 's/^server=\/\(.*\)\/114\.114\.114\.114$/\1/p' apple.china.conf >> apple-cn.txt
         fi
 
-        # Abeam
-        curl -s "https://raw.githubusercontent.com/v2fly/domain-list-community/master/data/abema" | awk '/^(DOMAIN-SUFFIX,|DOMAIN,)/ {print " - " $0}' > abema.list
+        # Abema
+        echo "#" | sed "s/$/ $(date)/" > abema.list
+        curl -s "https://raw.githubusercontent.com/v2fly/domain-list-community/master/data/abema" | awk '/^(DOMAIN-SUFFIX,|DOMAIN,)/ {print " - " $0}' >> abema.list
 
         # Bahamut
-        curl -s "https://raw.githubusercontent.com/v2fly/domain-list-community/master/data/bahamut" | awk '/^(DOMAIN-SUFFIX,|DOMAIN,)/ {print " - " $0}' > bahamut.list
+        echo "#" | sed "s/$/ $(date)/" > bahamut.list
+        curl -s "https://raw.githubusercontent.com/v2fly/domain-list-community/master/data/bahamut" | awk '/^(DOMAIN-SUFFIX,|DOMAIN,)/ {print " - " $0}' >> bahamut.list
 
     - name: Store the modified file
       run: |
