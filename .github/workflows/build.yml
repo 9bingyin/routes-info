@@ -29,6 +29,8 @@ jobs:
 
         curl --fail -o apple.china.conf https://raw.githubusercontent.com/felixonmars/dnsmasq-china-list/master/apple.china.conf || rm -f apple.china.conf
 
+        curl --fail -o accelerated-domains.china.conf https://raw.githubusercontent.com/felixonmars/dnsmasq-china-list/master/accelerated-domains.china.conf || rm -f accelerated-domains.china.conf
+
     - name: Modify the file using sed command
       run: |
         # ChinaCIDR
@@ -69,6 +71,12 @@ jobs:
         if [ -f apple.china.conf ]; then
           echo "#" | sed "s/$/ $(date)/" > apple-cn.txt
           sed -n 's/^server=\/\(.*\)\/114\.114\.114\.114$/\1/p' apple.china.conf >> apple-cn.txt
+        fi
+
+        # AppleDomain
+        if [ -f accelerated-domains.china.conf ]; then
+          echo "#" | sed "s/$/ $(date)/" > accelerated-domains.china.txt
+          sed -n 's/^server=\/\(.*\)\/114\.114\.114\.114$/\1/p' apple.china.conf >> accelerated-domains.china.txt
         fi
 
         # Abema
@@ -123,9 +131,10 @@ jobs:
         mv -f gfw.list lists/ || true
         mv -f chinadomain.list lists/ || true
         mv -f apple-cn.txt lists/ || true
+        mv -f accelerated-domains.china.txt lists/ || true
         mv -f abema.list lists/ || true
         mv -f bahamut.list lists/ || true
-        rm -rf chnroutes.txt cfip4.txt cfip6.txt lan-ip.txt lan-non_ip.txt gfwlist2dnsmasq.sh gfwlist.txt apple.china.conf
+        rm -rf chnroutes.txt cfip4.txt cfip6.txt lan-ip.txt lan-non_ip.txt gfwlist2dnsmasq.sh gfwlist.txt apple.china.conf accelerated-domains.china.conf
       shell: bash
 
     - name: Commit the changes
