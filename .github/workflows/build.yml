@@ -73,10 +73,10 @@ jobs:
           sed -n 's/^server=\/\(.*\)\/114\.114\.114\.114$/\1/p' apple.china.conf >> apple-cn.txt
         fi
 
-        # AppleDomain
+        # AcceleratedDomains China
         if [ -f accelerated-domains.china.conf ]; then
           echo "#" | sed "s/$/ $(date)/" > accelerated-domains.china.txt
-          sed -n 's/^server=\/\(.*\)\/114\.114\.114\.114$/\1/p' apple.china.conf >> accelerated-domains.china.txt
+          sed -n 's/^server=\/\(.*\)\/114\.114\.114\.114$/\1/p' accelerated-domains.china.conf >> accelerated-domains.china.txt
         fi
 
         # Abema
