@@ -1,6 +1,6 @@
-# Tue Oct 22 06:23:57 UTC 2024
-# 9899716 routes were dumped from us-iad01-rs01cn-b at Tue Oct 22 06:00:02 UTC 2024.
-# Found 49396 routes matching, aggregated to 4388.
+# Tue Oct 22 12:33:56 UTC 2024
+# 9906226 routes were dumped from us-iad01-rs01cn-b at Tue Oct 22 12:00:02 UTC 2024.
+# Found 49391 routes matching, aggregated to 4382.
 IP-CIDR,1.1.8.0/24,no-resolve
 IP-CIDR,1.2.4.0/24,no-resolve
 IP-CIDR,1.8.1.0/24,no-resolve
@@ -470,6 +470,7 @@ IP-CIDR,45.147.48.0/23,no-resolve
 IP-CIDR,45.150.236.0/23,no-resolve
 IP-CIDR,45.153.130.0/23,no-resolve
 IP-CIDR,45.157.70.0/23,no-resolve
+IP-CIDR,45.192.64.0/19,no-resolve
 IP-CIDR,45.199.167.0/24,no-resolve
 IP-CIDR,45.248.8.0/22,no-resolve
 IP-CIDR,45.249.212.0/22,no-resolve
@@ -3004,7 +3005,8 @@ IP-CIDR,156.107.181.0/24,no-resolve
 IP-CIDR,156.224.128.0/17,no-resolve
 IP-CIDR,156.236.119.0/24,no-resolve
 IP-CIDR,156.239.0.0/20,no-resolve
-IP-CIDR,156.239.64.0/18,no-resolve
+IP-CIDR,156.239.96.0/19,no-resolve
+IP-CIDR,156.239.224.0/19,no-resolve
 IP-CIDR,156.247.8.0/22,no-resolve
 IP-CIDR,156.247.12.0/23,no-resolve
 IP-CIDR,156.247.14.0/24,no-resolve
@@ -3766,15 +3768,7 @@ IP-CIDR,206.238.80.0/24,no-resolve
 IP-CIDR,209.11.242.0/23,no-resolve
 IP-CIDR,210.2.0.0/23,no-resolve
 IP-CIDR,210.2.4.0/24,no-resolve
-IP-CIDR,210.5.9.0/24,no-resolve
-IP-CIDR,210.5.16.0/24,no-resolve
-IP-CIDR,210.5.18.0/23,no-resolve
-IP-CIDR,210.5.20.0/24,no-resolve
-IP-CIDR,210.5.22.0/24,no-resolve
-IP-CIDR,210.5.25.0/24,no-resolve
-IP-CIDR,210.5.27.0/24,no-resolve
-IP-CIDR,210.5.28.0/23,no-resolve
-IP-CIDR,210.5.30.0/24,no-resolve
+IP-CIDR,210.5.18.0/24,no-resolve
 IP-CIDR,210.5.128.0/19,no-resolve
 IP-CIDR,210.12.0.0/16,no-resolve
 IP-CIDR,210.13.0.0/17,no-resolve
