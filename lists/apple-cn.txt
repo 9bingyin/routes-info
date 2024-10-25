@@ -1,4 +1,4 @@
-# Thu Oct 24 18:23:08 UTC 2024
+# Fri Oct 25 01:18:26 UTC 2024
 a1.mzstatic.com
 a2.mzstatic.com
 a3.mzstatic.com
@@ -52,6 +52,7 @@ cstat.apple.com
 cstat.cdn-apple.com
 dd-cdn.origin-apple.com.akadns.net
 dejavu.apple.com
+devimages-cdn.apple.com
 devstreaming-cdn.apple.com
 download.developer.apple.com
 experiments.apple.com
