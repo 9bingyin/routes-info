@@ -1,6 +1,6 @@
-# Sun Nov  3 06:24:32 UTC 2024
-# 7397271 routes were dumped from us-iad01-rs01cn-b at Sun Nov  3 06:00:03 UTC 2024.
-# Found 49096 routes matching, aggregated to 4196.
+# Sun Nov  3 12:30:26 UTC 2024
+# 7395560 routes were dumped from us-iad01-rs01cn-b at Sun Nov  3 12:00:03 UTC 2024.
+# Found 49102 routes matching, aggregated to 4197.
 IP-CIDR,1.1.8.0/24,no-resolve
 IP-CIDR,1.2.4.0/24,no-resolve
 IP-CIDR,1.8.1.0/24,no-resolve
@@ -464,6 +464,7 @@ IP-CIDR,45.147.48.0/23,no-resolve
 IP-CIDR,45.150.236.0/23,no-resolve
 IP-CIDR,45.153.128.0/22,no-resolve
 IP-CIDR,45.157.70.0/23,no-resolve
+IP-CIDR,45.192.64.0/19,no-resolve
 IP-CIDR,45.199.167.0/24,no-resolve
 IP-CIDR,45.204.112.0/20,no-resolve
 IP-CIDR,45.248.8.0/22,no-resolve
@@ -1208,6 +1209,7 @@ IP-CIDR,103.111.64.0/24,no-resolve
 IP-CIDR,103.112.172.0/22,no-resolve
 IP-CIDR,103.112.184.0/22,no-resolve
 IP-CIDR,103.113.4.0/22,no-resolve
+IP-CIDR,103.114.72.0/22,no-resolve
 IP-CIDR,103.114.100.0/22,no-resolve
 IP-CIDR,103.114.212.0/23,no-resolve
 IP-CIDR,103.114.236.0/22,no-resolve
@@ -1227,7 +1229,7 @@ IP-CIDR,103.117.220.0/22,no-resolve
 IP-CIDR,103.118.52.0/22,no-resolve
 IP-CIDR,103.118.60.0/22,no-resolve
 IP-CIDR,103.118.173.0/24,no-resolve
-IP-CIDR,103.118.192.0/20,no-resolve
+IP-CIDR,103.118.192.0/19,no-resolve
 IP-CIDR,103.118.240.0/21,no-resolve
 IP-CIDR,103.118.252.0/22,no-resolve
 IP-CIDR,103.119.0.0/22,no-resolve
@@ -2899,8 +2901,7 @@ IP-CIDR,156.232.10.0/23,no-resolve
 IP-CIDR,156.232.13.0/24,no-resolve
 IP-CIDR,156.236.119.0/24,no-resolve
 IP-CIDR,156.239.0.0/20,no-resolve
-IP-CIDR,156.239.96.0/19,no-resolve
-IP-CIDR,156.239.224.0/19,no-resolve
+IP-CIDR,156.239.64.0/18,no-resolve
 IP-CIDR,156.247.8.0/22,no-resolve
 IP-CIDR,156.247.12.0/23,no-resolve
 IP-CIDR,156.247.14.0/24,no-resolve
