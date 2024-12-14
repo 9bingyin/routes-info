@@ -51,10 +51,6 @@
       {
         "clash_mode": "global",
         "server": "proxyDns"
-      },
-      {
-        "rule_set": "geosite-geolocation-!cn",
-        "server": "proxyDns"
       }
     ],
     "final": "localDns",
@@ -158,10 +154,6 @@
     {
       "type": "dns",
       "tag": "dns-out"
-    },
-    {
-      "type": "block",
-      "tag": "block"
     }
   ],
   "route": {
@@ -202,23 +194,15 @@
         "outbound": "ABEMA"
       },
       {
-        "rule_set": "geosite-geolocation-!cn",
-        "outbound": "默认规则"
+        "rule_set": "geosite-gfw",
+        "outbound": "代理规则"
       },
       {
         "rule_set": "geosite-private",
         "outbound": "DIRECT"
       },
       {
-        "ip_is_private": true,
-        "outbound": "DIRECT"
-      },
-      {
         "rule_set": "geoip-cn",
-        "outbound": "直连规则"
-      },
-      {
-        "rule_set": "geosite-cn",
         "outbound": "直连规则"
       }
     ],
@@ -252,17 +236,10 @@
         "download_detour": "代理规则"
       },
       {
-        "tag": "geosite-cn",
+        "tag": "geosite-gfw",
         "type": "remote",
         "format": "binary",
-        "url": "https://testingcf.jsdelivr.net/gh/MetaCubeX/meta-rules-dat@sing/geo/geosite/cn.srs",
-        "download_detour": "代理规则"
-      },
-      {
-        "tag": "geosite-geolocation-!cn",
-        "type": "remote",
-        "format": "binary",
-        "url": "https://testingcf.jsdelivr.net/gh/MetaCubeX/meta-rules-dat@sing/geo/geosite/geolocation-!cn.srs",
+        "url": "https://testingcf.jsdelivr.net/gh/MetaCubeX/meta-rules-dat@sing/geo/geosite/gfw.srs",
         "download_detour": "代理规则"
       }
     ]
