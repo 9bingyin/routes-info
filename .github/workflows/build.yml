@@ -16,8 +16,9 @@ jobs:
     - name: Checkout the repository
       uses: actions/checkout@v3
       
-    - name: Setup retry mechanism and timeout
+    - name: Download files
       run: |
+        # 定义下载重试函数
         function download_with_retry() {
           local url=$1
           local output=$2
@@ -36,8 +37,7 @@ jobs:
           return 1
         }
 
-    - name: Download files
-      run: |
+        # 开始下载文件
         download_with_retry "https://raw.githubusercontent.com/misakaio/chnroutes2/master/chnroutes.txt" "chnroutes.txt"
         download_with_retry "https://www.cloudflare.com/ips-v4" "cfip4.txt"
         download_with_retry "https://www.cloudflare.com/ips-v6" "cfip6.txt"
