@@ -1,5 +1,4 @@
 # curl -s https://support.apple.com/en-us/101555 | sed -n '/<h2 class="gb-header">Device setup<\/h2>/,/<h2 id="firewalls" class="gb-header">Firewalls<\/h2>/p' | grep -o '<p class="gb-paragraph">.*</p>' | grep -oP '(?:\*\.)?[a-zA-Z0-9][-a-zA-Z0-9]*(\.[a-zA-Z0-9][-a-zA-Z0-9]*)+' | sed '/^\*/!s/^/DOMAIN,/g; s/^\*\./DOMAIN-SUFFIX,/g' | sort -u
-IP-CIDR,17.0.0.0/8,no-resolve
 DOMAIN,account.apple.com
 DOMAIN,albert.apple.com
 DOMAIN,api.apple-cloudkit.com
@@ -130,3 +129,4 @@ DOMAIN,ws.school.apple.com
 DOMAIN,www.apple.com
 DOMAIN,xp.apple.com
 DOMAIN,xp-cdn.apple.com
+IP-CIDR,17.0.0.0/8
