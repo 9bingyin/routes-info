@@ -1,6 +1,8 @@
 # Bing
 DOMAIN-SUFFIX,bing.com
 DOMAIN,copilot.microsoft.com
+
+# Apple Intelligence
 DOMAIN,apple-relay.cloudflare.com
 DOMAIN,apple-relay.fastly-edge.com
 DOMAIN,apple-relay.mask.apple-dns.net
