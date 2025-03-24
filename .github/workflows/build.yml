@@ -44,9 +44,9 @@ jobs:
         # CloudflareCIDR
         if [ -f cfip4.txt ] || [ -f cfip6.txt ]; then
           echo "#" | sed "s/$/ $(date)/" > cloudflare.list
-          [ -f cfip4.txt ] && sed -e '/^#/b' -e 's/^/IP-CIDR,/' -e 's/$/,no-resolve/' cfip4.txt >> cloudflare.list
+          [ -f cfip4.txt ] && sed -e '/^#/b' -e 's/^/IP-CIDR,/' cfip4.txt >> cloudflare.list
           echo >> cloudflare.list
-          [ -f cfip6.txt ] && sed -e '/^#/b' -e 's/^/IP-CIDR,/' -e 's/$/,no-resolve/' cfip6.txt >> cloudflare.list
+          [ -f cfip6.txt ] && sed -e '/^#/b' -e 's/^/IP-CIDR,/' cfip6.txt >> cloudflare.list
         fi
 
         # TelegramCIDR
@@ -58,7 +58,7 @@ jobs:
         # LAN
         if [ -f lan-ip.txt ] || [ -f lan-non_ip.txt ]; then
           echo "#" | sed "s/$/ $(date)/" > lan.list
-          [ -f lan-ip.txt ] && sed -E '/(IP-CIDR|IP-CIDR6),/ s/$/,no-resolve/' lan-ip.txt >> lan.list
+          [ -f lan-ip.txt ] && sed -E 's/IP-CIDR6,/IP-CIDR,/g' lan-ip.txt | sed -E '/(IP-CIDR),/ s/$/,no-resolve/' >> lan.list
           echo >> lan.list
           [ -f lan-non_ip.txt ] && cat lan-non_ip.txt >> lan.list
         fi
