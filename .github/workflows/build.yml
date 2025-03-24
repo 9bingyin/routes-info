@@ -73,7 +73,7 @@ jobs:
 
         # ChinaDomain
         echo "#" | sed "s/$/ $(date)/" > chinadomain.list
-        curl --fail -s https://raw.githubusercontent.com/ACL4SSR/ACL4SSR/master/Clash/ChinaDomain.list | sed '/# MyList/,/#/ {/# MyList/d; /#/!d}; /# CN域名直连/,/#/ {/# CN域名直连/d; /#/!d}; /# China DNS/,/#/ {/# China DNS/d; /#/!d}' >> chinadomain.list || rm -f chinadomain.list
+        curl --fail -s https://raw.githubusercontent.com/ACL4SSR/ACL4SSR/master/Clash/ChinaDomain.list | sed '/# MyList/,/#/ {/# MyList/d; /#/!d}; /# CN域名直连/,/#/ {/# CN域名直连/d; /#/!d}; /# China DNS/,/#/ {/# China DNS/d; /#/!d}; /# 中国国内常见域名关键词直连/,/#/ {/# 中国国内常见域名关键词直连/d; /#/!d}' >> chinadomain.list || rm -f chinadomain.list
         
         # AppleDomain
         if [ -f apple.china.conf ]; then
