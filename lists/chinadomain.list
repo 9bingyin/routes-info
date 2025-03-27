@@ -1,4 +1,4 @@
-# Thu Mar 27 12:36:43 UTC 2025
+# Thu Mar 27 18:25:24 UTC 2025
 # 直连列表
 
 # 360
@@ -650,3 +650,5 @@ DOMAIN-SUFFIX,zhimg.com
 DOMAIN-SUFFIX,zhipin.com
 DOMAIN-SUFFIX,zhongsou.com
 DOMAIN-SUFFIX,zhuihd.com
+DOMAIN-SUFFIX,cmbchina.com
+DOMAIN-SUFFIX,95516.com
