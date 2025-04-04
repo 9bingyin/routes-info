@@ -32,6 +32,9 @@ jobs:
 
         curl --fail -o lan-ip.txt https://raw.githubusercontent.com/SukkaW/Surge/master/Source/ip/lan.conf || rm -f lan-ip.txt
         curl --fail -o lan-non_ip.txt https://raw.githubusercontent.com/SukkaW/Surge/master/Source/non_ip/lan.conf || rm -f lan-non_ip.txt
+        
+        curl --fail -o domestic-ip.txt https://raw.githubusercontent.com/SukkaW/Surge/master/Source/ip/domestic.conf || rm -f domestic-ip.txt
+        curl --fail -o domestic-non_ip.txt https://raw.githubusercontent.com/SukkaW/Surge/master/Source/non_ip/domestic.conf || rm -f domestic-non_ip.txt
 
         wget --no-verbose https://raw.githubusercontent.com/cokebar/gfwlist2dnsmasq/master/gfwlist2dnsmasq.sh || rm -f gfwlist2dnsmasq.sh
         wget --no-verbose https://raw.githubusercontent.com/gfwlist/gfwlist/master/gfwlist.txt || rm -f gfwlist.txt
@@ -70,6 +73,26 @@ jobs:
           [ -f lan-ip.txt ] && sed -E 's/IP-CIDR6,/IP-CIDR,/g' lan-ip.txt | sed -E '/(IP-CIDR),/ s/$/,no-resolve/' >> lan.list
           echo >> lan.list
           [ -f lan-non_ip.txt ] && cat lan-non_ip.txt >> lan.list
+        fi
+        
+        # Domestic
+        if [ -f domestic-ip.txt ] || [ -f domestic-non_ip.txt ]; then
+          echo "#" | sed "s/$/ $(date)/" > domestic.list
+          
+          # 处理 IP 文件，但只保留注释
+          if [ -f domestic-ip.txt ]; then
+            grep "^#" domestic-ip.txt >> domestic.list
+            echo >> domestic.list
+          fi
+          
+          # 处理非 IP 文件，只保留 DOMAIN-SUFFIX、DOMAIN 和注释
+          if [ -f domestic-non_ip.txt ]; then
+            while IFS= read -r line; do
+              if [[ "$line" == \#* ]] || [[ "$line" == "DOMAIN-SUFFIX,"* ]] || [[ "$line" == "DOMAIN,"* ]]; then
+                echo "$line" >> domestic.list
+              fi
+            done < domestic-non_ip.txt
+          fi
         fi
 
         # GFWlist
@@ -199,6 +222,7 @@ jobs:
         mv -f cloudflare.list lists/ || true
         mv -f telegramcidr.list lists/ || true
         mv -f lan.list lists/ || true
+        mv -f domestic.list lists/ || true
         mv -f gfw.list lists/ || true
         mv -f chinadomain.list lists/ || true
         mv -f apple-cn.txt lists/ || true
@@ -206,7 +230,7 @@ jobs:
         mv -f abema.list lists/ || true
         mv -f bahamut.list lists/ || true
         mv -f geolocation-cn.list lists/ || true
-        rm -rf chnroutes.txt cfip4.txt cfip6.txt lan-ip.txt lan-non_ip.txt gfwlist2dnsmasq.sh gfwlist.txt apple.china.conf accelerated-domains.china.conf telegramcidr.txt
+        rm -rf chnroutes.txt cfip4.txt cfip6.txt lan-ip.txt lan-non_ip.txt domestic-ip.txt domestic-non_ip.txt gfwlist2dnsmasq.sh gfwlist.txt apple.china.conf accelerated-domains.china.conf telegramcidr.txt
       shell: bash
 
     - name: Commit the changes
