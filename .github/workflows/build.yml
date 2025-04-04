@@ -80,15 +80,15 @@ jobs:
           cat gfwlist.txt >> gfw.list
         fi
 
-        # ChinaDomain with mi.com and mi-img.com commented out
+        # ChinaDomain with mi.com, mi-img.com and xiaomi.com commented out
         echo "#" | sed "s/$/ $(date)/" > chinadomain.list
         # 下载到临时文件
         curl --fail -s https://raw.githubusercontent.com/ACL4SSR/ACL4SSR/master/Clash/ChinaDomain.list > temp_chinadomain.txt || { rm -f temp_chinadomain.txt; exit 1; }
         # 处理临时文件
         sed '/# MyList/,/#/ {/# MyList/d; /#/!d}; /# CN域名直连/,/#/ {/# CN域名直连/d; /#/!d}; /# China DNS/,/#/ {/# China DNS/d; /#/!d}; /# 中国国内常见域名关键词直连/,/#/ {/# 中国国内常见域名关键词直连/d; /#/!d}' temp_chinadomain.txt > temp_filtered.txt
-        # 注释掉特定的mi.com和mi-img.com行
+        # 注释掉特定的mi.com、mi-img.com和xiaomi.com行
         while IFS= read -r line; do
-          if [[ "$line" == "DOMAIN-SUFFIX,mi.com" ]] || [[ "$line" == "DOMAIN-SUFFIX,mi-img.com" ]]; then
+          if [[ "$line" == "DOMAIN-SUFFIX,mi.com" ]] || [[ "$line" == "DOMAIN-SUFFIX,mi-img.com" ]] || [[ "$line" == "DOMAIN-SUFFIX,xiaomi.com" ]]; then
             echo "# $line" >> chinadomain.list
           else
             echo "$line" >> chinadomain.list
@@ -159,9 +159,9 @@ jobs:
         # 提取所有后缀域名并保存
         grep "^+\." temp_domains.txt | sed 's/^+\.//' > temp_suffixes.txt
 
-        # 创建DOMAIN-SUFFIX规则，注释特定的mi.com和mi-img.com
+        # 创建DOMAIN-SUFFIX规则，注释特定的mi.com、mi-img.com和xiaomi.com
         while read suffix; do
-          if [[ "$suffix" == "mi.com" ]] || [[ "$suffix" == "mi-img.com" ]]; then
+          if [[ "$suffix" == "mi.com" ]] || [[ "$suffix" == "mi-img.com" ]] || [[ "$suffix" == "xiaomi.com" ]]; then
             echo "# DOMAIN-SUFFIX,$suffix" >> geolocation-cn.list
           else
             echo "DOMAIN-SUFFIX,$suffix" >> geolocation-cn.list
@@ -180,7 +180,7 @@ jobs:
           done
           # 如果没有被覆盖，则添加到结果中
           if [ $is_covered -eq 0 ]; then
-            if [[ "$domain" == "mi.com" ]] || [[ "$domain" == "mi-img.com" ]]; then
+            if [[ "$domain" == "mi.com" ]] || [[ "$domain" == "mi-img.com" ]] || [[ "$domain" == "xiaomi.com" ]]; then
               echo "# DOMAIN,$domain" >> geolocation-cn.list
             else
               echo "DOMAIN,$domain" >> geolocation-cn.list
