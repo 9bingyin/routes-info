@@ -111,7 +111,7 @@ jobs:
         sed '/# MyList/,/#/ {/# MyList/d; /#/!d}; /# CN域名直连/,/#/ {/# CN域名直连/d; /#/!d}; /# China DNS/,/#/ {/# China DNS/d; /#/!d}; /# 中国国内常见域名关键词直连/,/#/ {/# 中国国内常见域名关键词直连/d; /#/!d}' temp_chinadomain.txt > temp_filtered.txt
         # 注释掉特定的mi.com、mi-img.com和xiaomi.com行
         while IFS= read -r line; do
-          if [[ "$mi.com" ]] || [[ "$line" == "DOMAIN-SUFFIX,mi-img.com" ]] || [[ "$line" == "DOMAIN-SUFFIX,xiaomi.com" ]]; then
+          if [[ "$line" == "DOMAIN-SUFFIX,mi.com" ]] || [[ "$line" == "DOMAIN-SUFFIX,mi-img.com" ]] || [[ "$line" == "DOMAIN-SUFFIX,xiaomi.com" ]]; then
             echo "# $line" >> chinadomain.list
           else
             echo "$line" >> chinadomain.list
