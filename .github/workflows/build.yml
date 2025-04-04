@@ -129,6 +129,11 @@ jobs:
             fi
         done
 
+        # Geolocation-CN
+        echo "#" | sed "s/$/ $(date)/" > geolocation-cn.list
+        curl -s "https://raw.githubusercontent.com/MetaCubeX/meta-rules-dat/meta/geo/geosite/geolocation-cn.list" | \
+        awk '{if(substr($0,1,2)=="+.") print "DOMAIN-SUFFIX,"substr($0,3); else print "DOMAIN,"$0}' >> geolocation-cn.list
+
 
     - name: Store the modified file
       run: |
@@ -143,6 +148,7 @@ jobs:
         mv -f accelerated-domains.china.txt lists/ || true
         mv -f abema.list lists/ || true
         mv -f bahamut.list lists/ || true
+        mv -f geolocation-cn.list lists/ || true
         rm -rf chnroutes.txt cfip4.txt cfip6.txt lan-ip.txt lan-non_ip.txt gfwlist2dnsmasq.sh gfwlist.txt apple.china.conf accelerated-domains.china.conf telegramcidr.txt
       shell: bash
 
