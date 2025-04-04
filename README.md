@@ -12,6 +12,10 @@ chinadomain.list: https://github.com/ACL4SSR/ACL4SSR/blob/master/Clash/ChinaDoma
 
 apple.list: https://support.apple.com/en-us/101555
 
+geolocation-cn.list: https://github.com/MetaCubeX/meta-rules-dat/blob/meta/geo/geosite/geolocation-cn.list
+
+domestic.list: https://github.com/SukkaW/Surge
+
 ## 转换
 
 subconverter: https://github.com/tindy2013/subconverter
