@@ -16,13 +16,12 @@ jobs:
       
     - name: Check dependencies
       run: |
-        # 检查 Python3 是否已安装
-        if ! command -v python3 &> /dev/null; then
-          echo "Python3 not found, installing..."
-          sudo apt-get update
-          sudo apt-get install -y python3
-        fi
-        python3 --version
+        echo "Checking required dependencies..."
+        command -v curl >/dev/null 2>&1 || { echo "curl is required but not installed. Aborting."; exit 1; }
+        command -v grep >/dev/null 2>&1 || { echo "grep is required but not installed. Aborting."; exit 1; }
+        command -v awk >/dev/null 2>&1 || { echo "awk is required but not installed. Aborting."; exit 1; }
+        command -v sed >/dev/null 2>&1 || { echo "sed is required but not installed. Aborting."; exit 1; }
+        echo "All dependencies are installed."
 
     - name: Download file from url
       run: |
@@ -141,49 +140,33 @@ jobs:
 
         # Geolocation-CN with deduplication
         echo "#" | sed "s/$/ $(date)/" > geolocation-cn.list
-        curl -s "https://raw.githubusercontent.com/MetaCubeX/meta-rules-dat/meta/geo/geosite/geolocation-cn.list" | python3 - >> geolocation-cn.list << 'EOF'
-import sys
-import re
+        # 创建临时文件
+        curl -s "https://raw.githubusercontent.com/MetaCubeX/meta-rules-dat/refs/heads/meta/geo/geosite/geolocation-cn.list" > temp_domains.txt
 
-# 存储所有域名和后缀
-domain_rules = []
-suffix_rules = []
-suffix_set = set()
+        # 提取所有后缀域名并保存
+        grep "^+\." temp_domains.txt | sed 's/^+\.//' > temp_suffixes.txt
 
-# 处理输入
-for line in sys.stdin:
-    line = line.strip()
-    if not line:
-        continue
-    
-    if line.startswith("+."):
-        suffix = line[2:]
-        suffix_rules.append(f"DOMAIN-SUFFIX,{suffix}")
-        suffix_set.add(suffix)
-    else:
-        domain_rules.append(f"DOMAIN,{line}")
+        # 创建DOMAIN-SUFFIX规则
+        awk '{print "DOMAIN-SUFFIX,"$0}' temp_suffixes.txt >> geolocation-cn.list
 
-# 过滤掉被后缀覆盖的域名
-filtered_domain_rules = []
-for rule in domain_rules:
-    domain = rule.split(",")[1]
-    covered = False
-    
-    # 检查域名是否被某个后缀覆盖
-    for suffix in suffix_set:
-        if domain.endswith("." + suffix) or domain == suffix:
-            covered = True
-            break
-    
-    if not covered:
-        filtered_domain_rules.append(rule)
+        # 处理DOMAIN规则并去重
+        grep -v "^+\." temp_domains.txt | while read domain; do
+          is_covered=0
+          for suffix in $(cat temp_suffixes.txt); do
+            # 检查域名是否以.suffix结尾或等于suffix
+            if [[ "$domain" == *".$suffix" ]] || [[ "$domain" == "$suffix" ]]; then
+              is_covered=1
+              break
+            fi
+          done
+          # 如果没有被覆盖，则添加到结果中
+          if [ $is_covered -eq 0 ]; then
+            echo "DOMAIN,$domain" >> geolocation-cn.list
+          fi
+        done
 
-# 输出结果
-for rule in suffix_rules:
-    print(rule)
-for rule in filtered_domain_rules:
-    print(rule)
-EOF
+        # 清理临时文件
+        rm temp_domains.txt temp_suffixes.txt
 
 
     - name: Store the modified file
