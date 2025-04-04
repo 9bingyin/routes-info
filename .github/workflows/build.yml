@@ -141,7 +141,7 @@ jobs:
 
         # Geolocation-CN with deduplication
         echo "#" | sed "s/$/ $(date)/" > geolocation-cn.list
-        curl -s "https://raw.githubusercontent.com/MetaCubeX/meta-rules-dat/meta/geo/geosite/geolocation-cn.list" | python3 -c '
+        curl -s "https://raw.githubusercontent.com/MetaCubeX/meta-rules-dat/meta/geo/geosite/geolocation-cn.list" | python3 - >> geolocation-cn.list << 'EOF'
 import sys
 import re
 
@@ -183,7 +183,7 @@ for rule in suffix_rules:
     print(rule)
 for rule in filtered_domain_rules:
     print(rule)
-' >> geolocation-cn.list
+EOF
 
 
     - name: Store the modified file
