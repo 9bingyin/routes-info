@@ -146,10 +146,16 @@ jobs:
         # 提取所有后缀域名并保存
         grep "^+\." temp_domains.txt | sed 's/^+\.//' > temp_suffixes.txt
 
-        # 创建DOMAIN-SUFFIX规则
-        awk '{print "DOMAIN-SUFFIX,"$0}' temp_suffixes.txt >> geolocation-cn.list
+        # 创建DOMAIN-SUFFIX规则，注释mi-img.com相关行
+        while read suffix; do
+          if [[ "$suffix" == *"mi-img.com"* ]]; then
+            echo "# DOMAIN-SUFFIX,$suffix" >> geolocation-cn.list
+          else
+            echo "DOMAIN-SUFFIX,$suffix" >> geolocation-cn.list
+          fi
+        done < temp_suffixes.txt
 
-        # 处理DOMAIN规则并去重
+        # 处理DOMAIN规则并去重，注释mi-img.com相关行
         grep -v "^+\." temp_domains.txt | while read domain; do
           is_covered=0
           for suffix in $(cat temp_suffixes.txt); do
@@ -161,7 +167,11 @@ jobs:
           done
           # 如果没有被覆盖，则添加到结果中
           if [ $is_covered -eq 0 ]; then
-            echo "DOMAIN,$domain" >> geolocation-cn.list
+            if [[ "$domain" == *"mi-img.com"* ]]; then
+              echo "# DOMAIN,$domain" >> geolocation-cn.list
+            else
+              echo "DOMAIN,$domain" >> geolocation-cn.list
+            fi
           fi
         done
 
