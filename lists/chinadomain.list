@@ -1,4 +1,4 @@
-# Fri Apr  4 18:38:45 UTC 2025
+# Fri Apr  4 18:42:10 UTC 2025
 # 直连列表
 
 # 360
@@ -54,7 +54,7 @@ DOMAIN-SUFFIX,tbcdn.com
 DOMAIN-SUFFIX,tmall.com
 DOMAIN-SUFFIX,tmall.hk
 DOMAIN-SUFFIX,ucweb.com
-# DOMAIN-SUFFIX,xiami.com
+DOMAIN-SUFFIX,xiami.com
 DOMAIN-SUFFIX,xiami.net
 DOMAIN-SUFFIX,ykimg.com
 DOMAIN-SUFFIX,youku.com
@@ -251,7 +251,7 @@ DOMAIN-SUFFIX,duokan.com
 # DOMAIN-SUFFIX,mi-img.com
 # DOMAIN-SUFFIX,mi.com
 DOMAIN-SUFFIX,miui.com
-# DOMAIN-SUFFIX,xiaomi.com
+DOMAIN-SUFFIX,xiaomi.com
 DOMAIN-SUFFIX,xiaomi.net
 DOMAIN-SUFFIX,xiaomicp.com
 
@@ -551,7 +551,7 @@ DOMAIN-SUFFIX,msstatic.com
 DOMAIN-SUFFIX,mubu.com
 DOMAIN-SUFFIX,myunlu.com
 DOMAIN-SUFFIX,nruan.com
-# DOMAIN-SUFFIX,nuomi.com
+DOMAIN-SUFFIX,nuomi.com
 DOMAIN-SUFFIX,onedns.net
 DOMAIN-SUFFIX,oneplus.com
 DOMAIN-SUFFIX,onlinedown.net

@@ -1,4 +1,4 @@
-# Fri Apr  4 18:38:46 UTC 2025
+# Fri Apr  4 18:42:10 UTC 2025
 DOMAIN-SUFFIX,baidu
 DOMAIN-SUFFIX,tmall
 DOMAIN-SUFFIX,taobao
@@ -59,7 +59,7 @@ DOMAIN-SUFFIX,ezpro.pro
 DOMAIN-SUFFIX,itdog.cn
 DOMAIN-SUFFIX,webmasterhome.cn
 DOMAIN-SUFFIX,guoxuedashi.com
-# DOMAIN-SUFFIX,guoxuemi.com
+DOMAIN-SUFFIX,guoxuemi.com
 DOMAIN-SUFFIX,ip138.com
 DOMAIN-SUFFIX,ipshudi.com
 DOMAIN-SUFFIX,ipchaxun.net
@@ -250,7 +250,7 @@ DOMAIN-SUFFIX,bearychat.com
 DOMAIN-SUFFIX,beihaidc.com
 DOMAIN-SUFFIX,beijing-lipin.com
 DOMAIN-SUFFIX,bengbeng.com
-# DOMAIN-SUFFIX,benmi.com
+DOMAIN-SUFFIX,benmi.com
 DOMAIN-SUFFIX,berui.com
 DOMAIN-SUFFIX,bestopview.com
 DOMAIN-SUFFIX,biancheng.net
@@ -1325,7 +1325,7 @@ DOMAIN-SUFFIX,jomodns.cn
 DOMAIN-SUFFIX,jomodns.com
 DOMAIN-SUFFIX,jomodns.net
 DOMAIN-SUFFIX,mipcdn.com
-# DOMAIN-SUFFIX,nuomi.com
+DOMAIN-SUFFIX,nuomi.com
 DOMAIN-SUFFIX,quyaoya.com
 DOMAIN-SUFFIX,shifen.com
 DOMAIN-SUFFIX,smartapps.cn
@@ -1638,7 +1638,7 @@ DOMAIN-SUFFIX,xiaomidns.net
 DOMAIN-SUFFIX,xiaomiev.com
 DOMAIN-SUFFIX,xiaomiinc.cn
 DOMAIN-SUFFIX,xiaomiinc.com
-# DOMAIN-SUFFIX,xiaomi.com
+DOMAIN-SUFFIX,xiaomi.com
 # DOMAIN-SUFFIX,mi.com
 DOMAIN-SUFFIX,xiaomisa.net
 DOMAIN-SUFFIX,xiaominr.com
@@ -3986,7 +3986,7 @@ DOMAIN-SUFFIX,bocifunds.com
 DOMAIN-SUFFIX,bank-of-china.com
 DOMAIN-SUFFIX,8008205555.cn
 DOMAIN-SUFFIX,8008205555.com
-# DOMAIN-SUFFIX,cignacmb-ipmi.com
+DOMAIN-SUFFIX,cignacmb-ipmi.com
 DOMAIN-SUFFIX,cignacmb.com
 DOMAIN-SUFFIX,cignacmbamc.com
 DOMAIN-SUFFIX,cmb-leasing.com
@@ -4711,7 +4711,7 @@ DOMAIN-SUFFIX,alitianji.com
 DOMAIN-SUFFIX,aliunicorn.com
 DOMAIN-SUFFIX,aliway.com
 DOMAIN-SUFFIX,aliwork.com
-# DOMAIN-SUFFIX,alixiaomi.com
+DOMAIN-SUFFIX,alixiaomi.com
 DOMAIN-SUFFIX,alizhaopin.com
 DOMAIN-SUFFIX,alyms.cn
 DOMAIN-SUFFIX,asczwa.com
@@ -4804,7 +4804,7 @@ DOMAIN-SUFFIX,feizhu.cn
 DOMAIN-SUFFIX,feizhu.com
 DOMAIN-SUFFIX,fliggy.com
 DOMAIN-SUFFIX,iuynfg.com
-# DOMAIN-SUFFIX,xiami.com
+DOMAIN-SUFFIX,xiami.com
 DOMAIN-SUFFIX,xiami.fm
 DOMAIN-SUFFIX,xiami.net
 DOMAIN-SUFFIX,koubei.com
