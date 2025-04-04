@@ -1,4 +1,4 @@
-# Fri Apr  4 18:42:10 UTC 2025
+# Fri Apr  4 18:50:53 UTC 2025
 # 直连列表
 
 # 360
@@ -251,7 +251,7 @@ DOMAIN-SUFFIX,duokan.com
 # DOMAIN-SUFFIX,mi-img.com
 # DOMAIN-SUFFIX,mi.com
 DOMAIN-SUFFIX,miui.com
-DOMAIN-SUFFIX,xiaomi.com
+# DOMAIN-SUFFIX,xiaomi.com
 DOMAIN-SUFFIX,xiaomi.net
 DOMAIN-SUFFIX,xiaomicp.com
 
