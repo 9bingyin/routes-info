@@ -79,9 +79,9 @@ jobs:
         if [ -f domestic-ip.txt ] || [ -f domestic-non_ip.txt ]; then
           echo "#" | sed "s/$/ $(date)/" > domestic.list
           
-          # 处理 IP 文件，但只保留注释
+          # 处理 IP 文件，保留 IP-CIDR 规则和注释
           if [ -f domestic-ip.txt ]; then
-            grep "^#" domestic-ip.txt >> domestic.list
+            cat domestic-ip.txt >> domestic.list
             echo >> domestic.list
           fi
           
@@ -111,7 +111,7 @@ jobs:
         sed '/# MyList/,/#/ {/# MyList/d; /#/!d}; /# CN域名直连/,/#/ {/# CN域名直连/d; /#/!d}; /# China DNS/,/#/ {/# China DNS/d; /#/!d}; /# 中国国内常见域名关键词直连/,/#/ {/# 中国国内常见域名关键词直连/d; /#/!d}' temp_chinadomain.txt > temp_filtered.txt
         # 注释掉特定的mi.com、mi-img.com和xiaomi.com行
         while IFS= read -r line; do
-          if [[ "$line" == "DOMAIN-SUFFIX,mi.com" ]] || [[ "$line" == "DOMAIN-SUFFIX,mi-img.com" ]] || [[ "$line" == "DOMAIN-SUFFIX,xiaomi.com" ]]; then
+          if [[ "$mi.com" ]] || [[ "$line" == "DOMAIN-SUFFIX,mi-img.com" ]] || [[ "$line" == "DOMAIN-SUFFIX,xiaomi.com" ]]; then
             echo "# $line" >> chinadomain.list
           else
             echo "$line" >> chinadomain.list
