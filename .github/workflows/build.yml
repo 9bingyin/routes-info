@@ -13,6 +13,16 @@ jobs:
     steps:
     - name: Checkout the repository
       uses: actions/checkout@v2
+      
+    - name: Check dependencies
+      run: |
+        # 检查 Python3 是否已安装
+        if ! command -v python3 &> /dev/null; then
+          echo "Python3 not found, installing..."
+          sudo apt-get update
+          sudo apt-get install -y python3
+        fi
+        python3 --version
 
     - name: Download file from url
       run: |
@@ -129,10 +139,51 @@ jobs:
             fi
         done
 
-        # Geolocation-CN
+        # Geolocation-CN with deduplication
         echo "#" | sed "s/$/ $(date)/" > geolocation-cn.list
-        curl -s "https://raw.githubusercontent.com/MetaCubeX/meta-rules-dat/meta/geo/geosite/geolocation-cn.list" | \
-        awk '{if(substr($0,1,2)=="+.") print "DOMAIN-SUFFIX,"substr($0,3); else print "DOMAIN,"$0}' >> geolocation-cn.list
+        curl -s "https://raw.githubusercontent.com/MetaCubeX/meta-rules-dat/meta/geo/geosite/geolocation-cn.list" | python3 -c '
+import sys
+import re
+
+# 存储所有域名和后缀
+domain_rules = []
+suffix_rules = []
+suffix_set = set()
+
+# 处理输入
+for line in sys.stdin:
+    line = line.strip()
+    if not line:
+        continue
+    
+    if line.startswith("+."):
+        suffix = line[2:]
+        suffix_rules.append(f"DOMAIN-SUFFIX,{suffix}")
+        suffix_set.add(suffix)
+    else:
+        domain_rules.append(f"DOMAIN,{line}")
+
+# 过滤掉被后缀覆盖的域名
+filtered_domain_rules = []
+for rule in domain_rules:
+    domain = rule.split(",")[1]
+    covered = False
+    
+    # 检查域名是否被某个后缀覆盖
+    for suffix in suffix_set:
+        if domain.endswith("." + suffix) or domain == suffix:
+            covered = True
+            break
+    
+    if not covered:
+        filtered_domain_rules.append(rule)
+
+# 输出结果
+for rule in suffix_rules:
+    print(rule)
+for rule in filtered_domain_rules:
+    print(rule)
+' >> geolocation-cn.list
 
 
     - name: Store the modified file
