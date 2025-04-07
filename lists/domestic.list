@@ -1,4 +1,4 @@
-# Mon Apr  7 00:59:30 UTC 2025
+# Mon Apr  7 06:17:59 UTC 2025
 # $ meta_title Sukka's Ruleset - Mainland China Supplement CIDR
 # $ meta_description This file contains IPs broadcast inside Mainland China.
 
@@ -390,6 +390,8 @@ DOMAIN-SUFFIX,authing.cn
 DOMAIN-SUFFIX,authing.co
 DOMAIN-SUFFIX,awtmt.com
 DOMAIN-SUFFIX,amazonaws.com.cn
+DOMAIN-SUFFIX,baixing.com
+DOMAIN-SUFFIX,baixing.net
 DOMAIN-SUFFIX,bdatu.com
 DOMAIN-SUFFIX,bendibao.com
 DOMAIN-SUFFIX,benghuai.com
