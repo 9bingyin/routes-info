@@ -1,4 +1,4 @@
-# Thu Apr 10 12:23:33 UTC 2025
+# Thu Apr 10 18:16:33 UTC 2025
 # $ meta_title Sukka's Ruleset - Mainland China Supplement CIDR
 # $ meta_description This file contains IPs broadcast inside Mainland China.
 
@@ -634,6 +634,8 @@ DOMAIN-SUFFIX,xunlei.com
 DOMAIN-SUFFIX,xunyou.mobi
 DOMAIN-SUFFIX,xycdn.com
 DOMAIN-SUFFIX,xycloud.com
+DOMAIN-SUFFIX,youzanyun.com
+DOMAIN-SUFFIX,yzcdn.cn
 DOMAIN-SUFFIX,yicai.com
 DOMAIN-SUFFIX,yinxiang.com
 DOMAIN-SUFFIX,ys7.com
