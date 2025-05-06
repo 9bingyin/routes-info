@@ -1,4 +1,4 @@
-# Tue May  6 12:26:03 UTC 2025
+# Tue May  6 18:17:22 UTC 2025
 # $ meta_title Sukka's Ruleset - Mainland China Supplement CIDR
 # $ meta_description This file contains IPs broadcast inside Mainland China.
 
@@ -91,6 +91,7 @@ DOMAIN-SUFFIX,wo.cn
 DOMAIN-SUFFIX,wo.com.cn
 DOMAIN-SUFFIX,10010.com
 DOMAIN-SUFFIX,chinaunicom.cn
+DOMAIN-SUFFIX,wosms.cn
 # >> China Mobile
 DOMAIN-SUFFIX,10086.cn
 DOMAIN-SUFFIX,139.com
@@ -183,6 +184,7 @@ DOMAIN-SUFFIX,laiqukankan.com
 DOMAIN-SUFFIX,zhuanzfx.com
 DOMAIN-SUFFIX,321fenx.com
 DOMAIN-SUFFIX,youdao.com
+DOMAIN-SUFFIX,lf127.net
 # >> Sina
 DOMAIN-SUFFIX,sina.cn
 DOMAIN-SUFFIX,sina.com
@@ -438,6 +440,7 @@ DOMAIN-SUFFIX,cz88.net
 DOMAIN-SUFFIX,dancf.com
 DOMAIN-SUFFIX,dangdang.com
 DOMAIN-SUFFIX,daocloud.io
+DOMAIN,i.dell.com
 DOMAIN-SUFFIX,dewu.com
 DOMAIN-SUFFIX,dfcfw.com
 DOMAIN-SUFFIX,dida365.com
