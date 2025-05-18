@@ -52,6 +52,7 @@ DOMAIN,idmsa.apple.com
 DOMAIN,idv.cdn-apple.com
 DOMAIN,idv-prod1.apple.com
 DOMAIN,ig.apple.com
+DOMAIN,iphonesubmissions.apple.com
 DOMAIN,iprofiles.apple.com
 DOMAIN,itunes.apple.com
 DOMAIN,itunes.com
@@ -62,7 +63,6 @@ DOMAIN,mask-h2.icloud.com
 DOMAIN,mask.icloud.com
 DOMAIN,mdmenrollment.apple.com
 DOMAIN,mesu.apple.com
-DOMAIN,ns.itunes.apple.com
 DOMAIN,ocsp2.apple.com
 DOMAIN,ocsp.apple.com
 DOMAIN,ocsp.digicert.cn
@@ -70,7 +70,6 @@ DOMAIN,ocsp.digicert.com
 DOMAIN,oscdn.apple.com
 DOMAIN,osrecovery.apple.com
 DOMAIN,pg-bootstrap.itunes.apple.com
-DOMAIN,phonesubmissions.apple.com
 DOMAIN,playgrounds-assets-cdn.apple.com
 DOMAIN,playgrounds-cdn.apple.com
 DOMAIN,play.itunes.apple.com
