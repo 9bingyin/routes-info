@@ -1,4 +1,4 @@
-# Fri Jun  6 06:19:24 UTC 2025
+# Fri Jun  6 12:24:30 UTC 2025
 # $ meta_title Sukka's Ruleset - Mainland China Supplement CIDR
 # $ meta_description This file contains IPs broadcast inside Mainland China.
 
@@ -485,6 +485,7 @@ DOMAIN-SUFFIX,guancha.cn
 DOMAIN-SUFFIX,hc-cdn.com
 DOMAIN-SUFFIX,hongxiu.com
 DOMAIN-SUFFIX,hoopchina.com.cn
+DOMAIN-SUFFIX,huolala.cn
 DOMAIN-SUFFIX,hupu.com
 DOMAIN-SUFFIX,huxiu.com
 DOMAIN-SUFFIX,huxiucdn.com
