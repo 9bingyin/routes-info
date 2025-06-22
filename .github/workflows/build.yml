@@ -275,8 +275,11 @@ jobs:
         echo "Files to be added:"
         ls -la *.list *.txt 2>/dev/null || echo "No matching files found"
         
-        # 添加所有生成的文件
-        git add . 2>/dev/null || true
+        # 只添加具体的文件类型，避免添加目录
+        git add *.list *.txt 2>/dev/null || {
+          echo "No .list or .txt files to add"
+          exit 0
+        }
         
         # 检查是否有文件被添加到暂存区
         if ! git diff --cached --name-only | grep -q .; then
