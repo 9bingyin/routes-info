@@ -1,0 +1,303 @@
+name: Download and modify file from url
+
+on:
+  schedule:
+    - cron: "0 */6 * * *"
+  push:
+    branches:
+      - main
+  workflow_dispatch:
+
+jobs:
+  download_file_and_modify:
+    runs-on: ubuntu-latest
+    steps:
+    - name: Checkout the repository
+      uses: actions/checkout@v2
+      
+    - name: Check dependencies
+      run: |
+        echo "Checking required dependencies..."
+        command -v curl >/dev/null 2>&1 || { echo "curl is required but not installed. Aborting."; exit 1; }
+        command -v grep >/dev/null 2>&1 || { echo "grep is required but not installed. Aborting."; exit 1; }
+        command -v awk >/dev/null 2>&1 || { echo "awk is required but not installed. Aborting."; exit 1; }
+        command -v sed >/dev/null 2>&1 || { echo "sed is required but not installed. Aborting."; exit 1; }
+        echo "All dependencies are installed."
+
+    - name: Download file from url
+      run: |
+        curl --fail -o chnroutes.txt https://raw.githubusercontent.com/misakaio/chnroutes2/master/chnroutes.txt || rm -f chnroutes.txt
+        
+        curl --fail -o cfip4.txt https://www.cloudflare.com/ips-v4 || rm -f cfip4.txt
+        curl --fail -o cfip6.txt https://www.cloudflare.com/ips-v6 || rm -f cfip6.txt
+
+        curl --fail -o lan-ip.txt https://raw.githubusercontent.com/SukkaW/Surge/master/Source/ip/lan.conf || rm -f lan-ip.txt
+        curl --fail -o lan-non_ip.txt https://raw.githubusercontent.com/SukkaW/Surge/master/Source/non_ip/lan.conf || rm -f lan-non_ip.txt
+        
+        curl --fail -o domestic-ip.txt https://raw.githubusercontent.com/SukkaW/Surge/master/Source/ip/domestic.conf || rm -f domestic-ip.txt
+        curl --fail -o domestic-non_ip.txt https://raw.githubusercontent.com/SukkaW/Surge/master/Source/non_ip/domestic.conf || rm -f domestic-non_ip.txt
+
+        wget --no-verbose https://raw.githubusercontent.com/cokebar/gfwlist2dnsmasq/master/gfwlist2dnsmasq.sh || rm -f gfwlist2dnsmasq.sh
+        wget --no-verbose https://raw.githubusercontent.com/gfwlist/gfwlist/master/gfwlist.txt || rm -f gfwlist.txt
+
+        curl --fail -o apple.china.conf https://raw.githubusercontent.com/felixonmars/dnsmasq-china-list/master/apple.china.conf || rm -f apple.china.conf
+
+        curl --fail -o accelerated-domains.china.conf https://raw.githubusercontent.com/felixonmars/dnsmasq-china-list/master/accelerated-domains.china.conf || rm -f accelerated-domains.china.conf
+
+        curl --fail -o telegramcidr.txt https://core.telegram.org/resources/cidr.txt || rm -f telegramcidr.txt
+
+    - name: Modify the file using sed command
+      run: |
+        # ChinaCIDR
+        if [ -f chnroutes.txt ]; then
+          echo "#" | sed "s/$/ $(date)/" > chinacidr.list
+          sed -e '/^#/b' -e 's/^/IP-CIDR,/' -e 's/$/,no-resolve/' chnroutes.txt >> chinacidr.list
+        fi
+
+        # CloudflareCIDR
+        if [ -f cfip4.txt ] || [ -f cfip6.txt ]; then
+          echo "#" | sed "s/$/ $(date)/" > cloudflare.list
+          [ -f cfip4.txt ] && sed -e '/^#/b' -e 's/^/IP-CIDR,/' cfip4.txt >> cloudflare.list
+          echo >> cloudflare.list
+          [ -f cfip6.txt ] && sed -e '/^#/b' -e 's/^/IP-CIDR,/' cfip6.txt >> cloudflare.list
+        fi
+
+        # TelegramCIDR
+        if [ -f telegramcidr.txt ]; then
+          echo "#" | sed "s/$/ $(date)/" > telegramcidr.list
+          sed -e '/^#/b' -e 's/^/IP-CIDR,/' -e 's/$/,no-resolve/' telegramcidr.txt >> telegramcidr.list
+        fi
+
+        # LAN
+        if [ -f lan-ip.txt ] || [ -f lan-non_ip.txt ]; then
+          echo "#" | sed "s/$/ $(date)/" > lan.list
+          [ -f lan-ip.txt ] && sed -E 's/IP-CIDR6,/IP-CIDR,/g' lan-ip.txt | sed -E '/(IP-CIDR),/ s/$/,no-resolve/' >> lan.list
+          echo >> lan.list
+          [ -f lan-non_ip.txt ] && cat lan-non_ip.txt >> lan.list
+        fi
+        
+        # Domestic
+        if [ -f domestic-ip.txt ] || [ -f domestic-non_ip.txt ]; then
+          echo "#" | sed "s/$/ $(date)/" > domestic.list
+          
+          # 处理 IP 文件，保留 IP-CIDR 规则和注释
+          if [ -f domestic-ip.txt ]; then
+            cat domestic-ip.txt >> domestic.list
+            echo >> domestic.list
+          fi
+          
+          # 处理非 IP 文件，只保留 DOMAIN-SUFFIX、DOMAIN 和注释
+          if [ -f domestic-non_ip.txt ]; then
+            while IFS= read -r line; do
+              if [[ "$line" == \#* ]] || [[ "$line" == "DOMAIN-SUFFIX,"* ]] || [[ "$line" == "DOMAIN,"* ]]; then
+                echo "$line" >> domestic.list
+              fi
+            done < domestic-non_ip.txt
+          fi
+        fi
+
+        # GFWlist
+        if [ -f gfwlist2dnsmasq.sh ] && [ -f gfwlist.txt ]; then
+          echo "#" | sed "s/$/ $(date)/" > gfw.list
+          bash gfwlist2dnsmasq.sh -o gfwlist.txt
+          sed -i 's/server=\//DOMAIN-SUFFIX,/g; s/\/127\.0\.0\.1#5353//g' gfwlist.txt
+          cat gfwlist.txt >> gfw.list
+        fi
+
+        # ChinaDomain with mi.com, mi-img.com and xiaomi.com commented out
+        echo "#" | sed "s/$/ $(date)/" > chinadomain.list
+        # 下载到临时文件
+        curl --fail -s https://raw.githubusercontent.com/ACL4SSR/ACL4SSR/master/Clash/ChinaDomain.list > temp_chinadomain.txt || { rm -f temp_chinadomain.txt; exit 1; }
+        # 处理临时文件
+        sed '/# MyList/,/#/ {/# MyList/d; /#/!d}; /# CN域名直连/,/#/ {/# CN域名直连/d; /#/!d}; /# China DNS/,/#/ {/# China DNS/d; /#/!d}; /# 中国国内常见域名关键词直连/,/#/ {/# 中国国内常见域名关键词直连/d; /#/!d}' temp_chinadomain.txt > temp_filtered.txt
+        # 注释掉特定的mi.com、mi-img.com和xiaomi.com行
+        while IFS= read -r line; do
+          if [[ "$line" == "DOMAIN-SUFFIX,mi.com" ]] || [[ "$line" == "DOMAIN-SUFFIX,mi-img.com" ]] || [[ "$line" == "DOMAIN-SUFFIX,xiaomi.com" ]]; then
+            echo "# $line" >> chinadomain.list
+          else
+            echo "$line" >> chinadomain.list
+          fi
+        done < temp_filtered.txt
+        # 清理临时文件
+        rm -f temp_chinadomain.txt temp_filtered.txt
+        
+        # AppleDomain
+        if [ -f apple.china.conf ]; then
+          echo "#" | sed "s/$/ $(date)/" > apple-cn.txt
+          sed -n 's/^server=\/\(.*\)\/114\.114\.114\.114$/\1/p' apple.china.conf >> apple-cn.txt
+        fi
+
+        # AcceleratedDomains China
+        if [ -f accelerated-domains.china.conf ]; then
+          echo "#" | sed "s/$/ $(date)/" > accelerated-domains.china.txt
+          sed -n 's/^server=\/\(.*\)\/114\.114\.114\.114$/\1/p' accelerated-domains.china.conf >> accelerated-domains.china.txt
+        fi
+
+        # Abema
+        echo "#" | sed "s/$/ $(date)/" > abema.list
+        curl --fail -s "https://raw.githubusercontent.com/v2fly/domain-list-community/master/data/abema" | \
+        while IFS= read -r line || [[ -n "$line" ]]; do
+            [[ "$line" =~ ^# || -z "$line" ]] && continue
+            [[ "$line" =~ ^include: ]] && continue
+            line=${line%% @*}
+            line=$(echo "$line" | sed 's/[[:space:]]*#.*//')
+            if [[ "$line" =~ ^domain:(.*)$ ]]; then
+                echo "DOMAIN-SUFFIX,${BASH_REMATCH[1]}" >> abema.list
+            elif [[ "$line" =~ ^full:(.*)$ ]]; then
+                echo "DOMAIN,${BASH_REMATCH[1]}" >> abema.list
+            elif [[ "$line" =~ ^regexp:(.*)$ ]]; then
+                echo "DOMAIN-REGEX,${BASH_REMATCH[1]}" >> abema.list
+            elif [[ "$line" =~ ^keyword:(.*)$ ]]; then
+                echo "DOMAIN-KEYWORD,${BASH_REMATCH[1]}" >> abema.list
+            else
+                echo "DOMAIN-SUFFIX,$line" >> abema.list
+            fi
+        done
+
+        # Bahamut
+        echo "#" | sed "s/$/ $(date)/" > bahamut.list
+        curl --fail -s "https://raw.githubusercontent.com/v2fly/domain-list-community/master/data/bahamut" | \
+        while IFS= read -r line || [[ -n "$line" ]]; do
+            [[ "$line" =~ ^# || -z "$line" ]] && continue
+            [[ "$line" =~ ^include: ]] && continue
+            line=${line%% @*}
+            line=$(echo "$line" | sed 's/[[:space:]]*#.*//')
+            if [[ "$line" =~ ^domain:(.*)$ ]]; then
+                echo "DOMAIN-SUFFIX,${BASH_REMATCH[1]}" >> bahamut.list
+            elif [[ "$line" =~ ^full:(.*)$ ]]; then
+                echo "DOMAIN,${BASH_REMATCH[1]}" >> bahamut.list
+            elif [[ "$line" =~ ^regexp:(.*)$ ]]; then
+                echo "DOMAIN-REGEX,${BASH_REMATCH[1]}" >> bahamut.list
+            elif [[ "$line" =~ ^keyword:(.*)$ ]]; then
+                echo "DOMAIN-KEYWORD,${BASH_REMATCH[1]}" >> bahamut.list
+            else
+                echo "DOMAIN-SUFFIX,$line" >> bahamut.list
+            fi
+        done
+
+        # Geolocation-CN with deduplication
+        echo "#" | sed "s/$/ $(date)/" > geolocation-cn.list
+        # 创建临时文件
+        curl -s "https://raw.githubusercontent.com/MetaCubeX/meta-rules-dat/refs/heads/meta/geo/geosite/geolocation-cn.list" > temp_domains.txt
+
+        # 提取所有后缀域名并保存
+        grep "^+\." temp_domains.txt | sed 's/^+\.//' > temp_suffixes.txt
+
+        # 创建DOMAIN-SUFFIX规则，注释特定的mi.com、mi-img.com和xiaomi.com
+        while read suffix; do
+          if [[ "$suffix" == "mi.com" ]] || [[ "$suffix" == "mi-img.com" ]] || [[ "$suffix" == "xiaomi.com" ]]; then
+            echo "# DOMAIN-SUFFIX,$suffix" >> geolocation-cn.list
+          else
+            echo "DOMAIN-SUFFIX,$suffix" >> geolocation-cn.list
+          fi
+        done < temp_suffixes.txt
+
+        # 处理DOMAIN规则并去重
+        grep -v "^+\." temp_domains.txt | while read domain; do
+          is_covered=0
+          for suffix in $(cat temp_suffixes.txt); do
+            # 检查域名是否以.suffix结尾或等于suffix
+            if [[ "$domain" == *".$suffix" ]] || [[ "$domain" == "$suffix" ]]; then
+              is_covered=1
+              break
+            fi
+          done
+          # 如果没有被覆盖，则添加到结果中
+          if [ $is_covered -eq 0 ]; then
+            if [[ "$domain" == "mi.com" ]] || [[ "$domain" == "mi-img.com" ]] || [[ "$domain" == "xiaomi.com" ]]; then
+              echo "# DOMAIN,$domain" >> geolocation-cn.list
+            else
+              echo "DOMAIN,$domain" >> geolocation-cn.list
+            fi
+          fi
+        done
+
+        # 清理临时文件
+        rm temp_domains.txt temp_suffixes.txt
+
+
+    - name: Store the modified file
+      run: |
+        mkdir -p lists
+        mv -f chinacidr.list lists/ || true
+        mv -f cloudflare.list lists/ || true
+        mv -f telegramcidr.list lists/ || true
+        mv -f lan.list lists/ || true
+        mv -f domestic.list lists/ || true
+        mv -f gfw.list lists/ || true
+        mv -f chinadomain.list lists/ || true
+        mv -f apple-cn.txt lists/ || true
+        mv -f accelerated-domains.china.txt lists/ || true
+        mv -f abema.list lists/ || true
+        mv -f bahamut.list lists/ || true
+        mv -f geolocation-cn.list lists/ || true
+        rm -rf chnroutes.txt cfip4.txt cfip6.txt lan-ip.txt lan-non_ip.txt domestic-ip.txt domestic-non_ip.txt gfwlist2dnsmasq.sh gfwlist.txt apple.china.conf accelerated-domains.china.conf telegramcidr.txt
+      shell: bash
+
+    - name: Deploy to release branch
+      run: |
+        # 配置 Git
+        git config --global user.name 'github-actions[bot]'
+        git config --global user.email 'github-actions[bot]@users.noreply.github.com'
+        
+        # 检查 lists 目录是否存在且有文件
+        if [ ! -d "lists" ] || [ -z "$(ls -A lists 2>/dev/null)" ]; then
+          echo "No files to deploy in lists directory"
+          exit 0
+        fi
+        
+        # 先备份 lists 目录到临时位置
+        cp -r lists /tmp/release-lists
+        
+        # 备份 clash 目录中的手动维护列表（如果存在）
+        if [ -d "clash" ]; then
+          echo "Copying manual lists from clash directory..."
+          cp clash/*.list /tmp/release-lists/ 2>/dev/null || true
+        fi
+        
+        # 创建一个完全干净的 orphan 分支
+        git checkout --orphan release-temp
+        
+        # 删除所有被跟踪的文件（清空暂存区）
+        git rm -rf . --quiet 2>/dev/null || true
+        
+        # 从备份位置复制文件到根目录
+        cp /tmp/release-lists/* . 2>/dev/null || {
+          echo "Failed to copy files from backup directory"
+          exit 1
+        }
+        
+        # 显示要添加的文件
+        echo "Files to be added:"
+        ls -la *.list *.txt 2>/dev/null || echo "No matching files found"
+        
+        # 添加所有生成的文件
+        git add . 2>/dev/null || true
+        
+        # 检查是否有文件被添加到暂存区
+        if ! git diff --cached --name-only | grep -q .; then
+          echo "No changes to commit"
+          exit 0
+        fi
+        
+        # 显示将要提交的文件
+        echo "Files to be committed:"
+        git diff --cached --name-only
+        
+        # 提交变更
+        git commit -m "Auto Update Lists - $(date '+%Y-%m-%d %H:%M:%S')"
+        
+        # 删除原有的 release 分支（如果存在）
+        git branch -D release 2>/dev/null || true
+        git push origin --delete release 2>/dev/null || true
+        
+        # 重命名当前分支为 release
+        git branch -m release
+        
+        # 强制推送到 release 分支
+        git push origin release --force
+        
+        # 清理临时文件
+        rm -rf /tmp/release-lists
+      env:
+        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}

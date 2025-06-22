@@ -1,0 +1,4 @@
+name: 使用 AliDNS
+dns:
+  default-nameserver: [223.5.5.5, 223.6.6.6] #!replace
+  nameserver: ['https://223.5.5.5/dns-query', 'https://223.6.6.6/dns-query'] #!replace
