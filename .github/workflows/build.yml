@@ -246,13 +246,17 @@ jobs:
           exit 0
         fi
         
-        # 先备份 lists 目录到临时位置
-        cp -r lists /tmp/release-lists
+        # 先备份 lists 目录中的文件到临时位置
+        mkdir -p /tmp/release-files
+        cp lists/* /tmp/release-files/ 2>/dev/null || {
+          echo "No files found in lists directory"
+          exit 0
+        }
         
         # 备份 clash 目录中的手动维护列表（如果存在）
         if [ -d "clash" ]; then
           echo "Copying manual lists from clash directory..."
-          cp clash/*.list /tmp/release-lists/ 2>/dev/null || true
+          cp clash/*.list /tmp/release-files/ 2>/dev/null || true
         fi
         
         # 创建一个完全干净的 orphan 分支
@@ -262,7 +266,7 @@ jobs:
         git rm -rf . --quiet 2>/dev/null || true
         
         # 从备份位置复制文件到根目录
-        cp /tmp/release-lists/* . 2>/dev/null || {
+        cp /tmp/release-files/* . 2>/dev/null || {
           echo "Failed to copy files from backup directory"
           exit 1
         }
@@ -298,6 +302,6 @@ jobs:
         git push origin release --force
         
         # 清理临时文件
-        rm -rf /tmp/release-lists
+        rm -rf /tmp/release-files
       env:
         GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
