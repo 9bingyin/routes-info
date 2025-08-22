@@ -2,8 +2,10 @@
 DOMAIN,account.apple.com
 DOMAIN,albert.apple.com
 DOMAIN,api.apple-cloudkit.com
+DOMAIN,api-business.apple.com
 DOMAIN,api.edu.apple.com
 DOMAIN,api.ent.apple.com
+DOMAIN,api-school.apple.com
 DOMAIN,appldnld.apple.com
 DOMAIN,appldnld.apple.com.edgesuite.net
 DOMAIN,appleid.cdn-apple.com
