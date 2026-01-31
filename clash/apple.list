@@ -130,4 +130,5 @@ DOMAIN-SUFFIX,push.apple.com
 DOMAIN-SUFFIX,school.apple.com
 DOMAIN-SUFFIX,smoot.apple.com
 DOMAIN-SUFFIX,vertexsmb.com
+DOMAIN-SUFFIX,apple
 IP-CIDR,17.0.0.0/8
