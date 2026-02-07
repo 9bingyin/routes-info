@@ -89,8 +89,10 @@ jobs:
           # 处理非 IP 文件，只保留 DOMAIN-SUFFIX、DOMAIN 和注释
           if [ -f domestic-non_ip.txt ]; then
             while IFS= read -r line; do
-              if [[ "$line" == \#* ]] || [[ "$line" == "DOMAIN-SUFFIX,"* ]] || [[ "$line" == "DOMAIN,"* ]]; then
+              if [[ "$line" == \#* ]]; then
                 echo "$line" >> domestic.list
+              elif [[ "$line" == "DOMAIN-SUFFIX,"* ]] || [[ "$line" == "DOMAIN,"* ]]; then
+                echo "${line%%#*}" | sed 's/[[:space:]]*$//' >> domestic.list
               fi
             done < domestic-non_ip.txt
           fi
