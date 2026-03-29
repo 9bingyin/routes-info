@@ -1,4 +1,4 @@
-# curl -s https://support.apple.com/en-us/101555 | sed -n '/<h2 class="gb-header">Device setup<\/h2>/,/<h2 id="firewalls" class="gb-header">Firewalls<\/h2>/p' | grep -o '<p class="gb-paragraph">.*</p>' | grep -oP '(?:\*\.)?[a-zA-Z0-9][-a-zA-Z0-9]*(\.[a-zA-Z0-9][-a-zA-Z0-9]*)+' | sed '/^\*/!s/^/DOMAIN,/g; s/^\*\./DOMAIN-SUFFIX,/g' | sort -u -t, -k1,1 -k2,2
+# curl -LfsSL https://support.apple.com/en-us/101555 | perl -0ne 'if (/<h2 id="devicesetup".*?<h2 id="firewalls"/s) { $section = $&; while ($section =~ m{<tr><td\b[^>]*>\s*<p\b[^>]*>([^<]+)</p>}sg) { print "$1\n"; } }' | grep -oP '^(?:\*\.)?[a-zA-Z0-9][-a-zA-Z0-9]*(\.[a-zA-Z0-9][-a-zA-Z0-9]*)+$' | sed '/^\*/!s/^/DOMAIN,/g; s/^\*\./DOMAIN-SUFFIX,/g' | sort -u -t, -k1,1 -k2,2
 DOMAIN,account.apple.com
 DOMAIN,albert.apple.com
 DOMAIN,api.apple-cloudkit.com
@@ -9,6 +9,7 @@ DOMAIN,api-school.apple.com
 DOMAIN,appldnld.apple.com
 DOMAIN,appldnld.apple.com.edgesuite.net
 DOMAIN,appleid.cdn-apple.com
+DOMAIN,apple-native-relay.apple.com
 DOMAIN,apple-relay.apple.com
 DOMAIN,apple-relay.cloudflare.com
 DOMAIN,apple-relay.fastly-edge.com
@@ -65,6 +66,7 @@ DOMAIN,mask-h2.icloud.com
 DOMAIN,mask.icloud.com
 DOMAIN,mdmenrollment.apple.com
 DOMAIN,mesu.apple.com
+DOMAIN,metrics.icloud.com
 DOMAIN,ocsp2.apple.com
 DOMAIN,ocsp.apple.com
 DOMAIN,ocsp.digicert.cn
@@ -75,8 +77,10 @@ DOMAIN,pg-bootstrap.itunes.apple.com
 DOMAIN,playgrounds-assets-cdn.apple.com
 DOMAIN,playgrounds-cdn.apple.com
 DOMAIN,play.itunes.apple.com
+DOMAIN,pong.icloud.com
 DOMAIN,pos-device.apple.com
 DOMAIN,ppq.apple.com
+DOMAIN,probe.icloud.com
 DOMAIN,serverstatus.apple.com
 DOMAIN,setup.icloud.com
 DOMAIN,skl.apple.com
@@ -86,8 +90,6 @@ DOMAIN,sq-device.apple.com
 DOMAIN,statici.icloud.com
 DOMAIN,static.ips.apple.com
 DOMAIN,suconfig.apple.com
-DOMAIN,support.apple.com
-DOMAIN,support.claris.com
 DOMAIN,swcdn.apple.com
 DOMAIN,swdist.apple.com
 DOMAIN,swdownload.apple.com
