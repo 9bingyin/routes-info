@@ -74,8 +74,8 @@ DOMAIN,ocsp.digicert.com
 DOMAIN,oscdn.apple.com
 DOMAIN,osrecovery.apple.com
 DOMAIN,pg-bootstrap.itunes.apple.com
-DOMAIN,playgrounds-assets-cdn.apple.com
-DOMAIN,playgrounds-cdn.apple.com
+DOMAIN,playground-assets-cdn.apple.com
+DOMAIN,playground-cdn.apple.com
 DOMAIN,play.itunes.apple.com
 DOMAIN,pong.icloud.com
 DOMAIN,pos-device.apple.com
@@ -113,6 +113,7 @@ DOMAIN,xp.apple.com
 DOMAIN,xp-cdn.apple.com
 DOMAIN-SUFFIX,appattest.apple.com
 DOMAIN-SUFFIX,apple-cloudkit.com
+DOMAIN-SUFFIX,apple-dns.net
 DOMAIN-SUFFIX,apple-livephotoskit.com
 DOMAIN-SUFFIX,apple-mapkit.com
 DOMAIN-SUFFIX,apps.apple.com

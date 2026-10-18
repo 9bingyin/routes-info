@@ -4,6 +4,8 @@ chinacidr.list: https://github.com/misakaio/chnroutes2
 
 cloudflare.list: https://www.cloudflare.com/ips/
 
+chatgpt-voice.list: https://openai.com/chatgpt-voice.json
+
 lan.list: https://github.com/SukkaW/Surge
 
 gfw.list: https://github.com/gfwlist/gfwlist

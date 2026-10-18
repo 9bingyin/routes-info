@@ -22,6 +22,7 @@ jobs:
         command -v grep >/dev/null 2>&1 || { echo "grep is required but not installed. Aborting."; exit 1; }
         command -v awk >/dev/null 2>&1 || { echo "awk is required but not installed. Aborting."; exit 1; }
         command -v sed >/dev/null 2>&1 || { echo "sed is required but not installed. Aborting."; exit 1; }
+        command -v jq >/dev/null 2>&1 || { echo "jq is required but not installed. Aborting."; exit 1; }
         echo "All dependencies are installed."
 
     - name: Download file from url
@@ -46,6 +47,8 @@ jobs:
 
         curl --fail -o telegramcidr.txt https://core.telegram.org/resources/cidr.txt || rm -f telegramcidr.txt
 
+        curl --fail -o chatgpt-voice.json https://openai.com/chatgpt-voice.json || rm -f chatgpt-voice.json
+
     - name: Modify the file using sed command
       run: |
         # ChinaCIDR
@@ -66,6 +69,16 @@ jobs:
         if [ -f telegramcidr.txt ]; then
           echo "#" | sed "s/$/ $(date)/" > telegramcidr.list
           sed -e '/^#/b' -e 's/^/IP-CIDR,/' -e 's/$/,no-resolve/' telegramcidr.txt >> telegramcidr.list
+        fi
+
+        # ChatGPT Voice
+        if [ -f chatgpt-voice.json ]; then
+          echo "#" | sed "s/$/ $(date)/" > chatgpt-voice.list
+          jq -er '.prefixes | map(
+            if .ipv4Prefix then "IP-CIDR,\(.ipv4Prefix),no-resolve"
+            elif .ipv6Prefix then "IP-CIDR6,\(.ipv6Prefix),no-resolve"
+            else empty end
+          ) | if length > 0 then .[] else error("No ChatGPT Voice prefixes found") end' chatgpt-voice.json >> chatgpt-voice.list
         fi
 
         # LAN
@@ -224,6 +237,7 @@ jobs:
         mv -f chinacidr.list lists/ || true
         mv -f cloudflare.list lists/ || true
         mv -f telegramcidr.list lists/ || true
+        mv -f chatgpt-voice.list lists/ || true
         mv -f lan.list lists/ || true
         mv -f domestic.list lists/ || true
         mv -f gfw.list lists/ || true
@@ -233,7 +247,7 @@ jobs:
         mv -f abema.list lists/ || true
         mv -f bahamut.list lists/ || true
         mv -f geolocation-cn.list lists/ || true
-        rm -rf chnroutes.txt cfip4.txt cfip6.txt lan-ip.txt lan-non_ip.txt domestic-ip.txt domestic-non_ip.txt gfwlist2dnsmasq.sh gfwlist.txt apple.china.conf accelerated-domains.china.conf telegramcidr.txt
+        rm -rf chnroutes.txt cfip4.txt cfip6.txt lan-ip.txt lan-non_ip.txt domestic-ip.txt domestic-non_ip.txt gfwlist2dnsmasq.sh gfwlist.txt apple.china.conf accelerated-domains.china.conf telegramcidr.txt chatgpt-voice.json
       shell: bash
 
     - name: Deploy to release branch
