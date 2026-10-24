@@ -1,0 +1,21 @@
+# Bing
+DOMAIN-SUFFIX,bing.com
+DOMAIN,copilot.cloud.microsoft
+DOMAIN,copilot.microsoft.com
+
+# Apple Intelligence
+DOMAIN,apple-relay.cloudflare.com
+DOMAIN,apple-relay.fastly-edge.com
+DOMAIN,apple-relay.mask.apple-dns.net
+DOMAIN,apple-relay.apple.com
+
+# Telegram
+# https://apps.db.ripe.net/db-web-ui/query?bflag=false&dflag=false&rflag=true&searchtext=TELEGRAM-MESSENGER-INFRA-NET&source=RIPE
+IP-CIDR,5.28.192.0/21,no-resolve
+IP-CIDR,5.28.200.0/21,no-resolve
+IP-CIDR,5.28.208.0/21,no-resolve
+IP-CIDR,5.28.216.0/21,no-resolve
+IP-CIDR,5.28.224.0/21,no-resolve
+IP-CIDR,5.28.232.0/21,no-resolve
+IP-CIDR,5.28.240.0/21,no-resolve
+IP-CIDR,5.28.248.0/21,no-resolve
